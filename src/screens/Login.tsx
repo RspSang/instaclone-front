@@ -1,4 +1,3 @@
-import { gql, useMutation } from "@apollo/client";
 import {
   faFacebookSquare,
   faInstagram,
@@ -16,6 +15,8 @@ import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Input";
 import Separator from "../components/auth/Separator";
 import PageTitle from "../components/PageTitle";
+import { LoginMutation, useLoginMutation } from "../generated/graphql";
+
 import routes from "../routes";
 
 const FacebookLogin = styled.div`
@@ -42,16 +43,6 @@ interface LoginState {
   message?: string;
 }
 
-const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      ok
-      token
-      error
-    }
-  }
-`;
-
 function Login() {
   const location = useLocation();
   const state = location.state as LoginState | null;
@@ -68,18 +59,19 @@ function Login() {
       password: state?.password || "",
     },
   });
-  const onCompleted = (data: any) => {
-    const {
-      login: { ok, error, token },
-    } = data;
-    if (!ok) {
-      setError("result", { message: error });
-    }
-    if (token) {
-      logUserIn(token);
+  const onCompleted = ({ login }: LoginMutation) => {
+    if (login) {
+      const { ok, error, token } = login;
+      if (!ok && error) {
+        setError("result", { message: error });
+      }
+      if (token) {
+        logUserIn(token);
+      }
     }
   };
-  const [login, { loading }] = useMutation(LOGIN_MUTATION, { onCompleted });
+
+  const [login, { loading }] = useLoginMutation({ onCompleted });
   const onSubmitValid: SubmitHandler<FormData> = ({ username, password }) => {
     if (loading) {
       return;

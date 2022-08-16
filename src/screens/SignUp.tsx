@@ -1,4 +1,3 @@
-import { gql, useMutation } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,6 +11,10 @@ import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Input";
 import PageTitle from "../components/PageTitle";
 import { FatLink } from "../components/shared";
+import {
+  CreateAccountMutation,
+  useCreateAccountMutation,
+} from "../generated/graphql";
 import routes from "../routes";
 
 const HeaderContainer = styled.div`
@@ -35,27 +38,6 @@ interface FormData {
   result?: string;
 }
 
-const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccount(
-    $firstName: String!
-    $lastName: String
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    createAccount(
-      firstName: $firstName
-      lastName: $lastName
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      ok
-      error
-    }
-  }
-`;
-
 function SignUp() {
   const navigate = useNavigate();
   const {
@@ -68,20 +50,24 @@ function SignUp() {
   } = useForm<FormData>({
     mode: "onChange",
   });
-  const onCompleted = (data: any) => {
+  const onCompleted = ({ createAccount }: CreateAccountMutation) => {
     const { username, password } = getValues();
-    const {
-      createAccount: { ok, error },
-    } = data;
-    if (!ok) {
-      setError("result", { message: error });
-      return;
+    if (createAccount) {
+      const { ok, error } = createAccount;
+      if (!ok && error) {
+        setError("result", { message: error });
+        return;
+      }
+      navigate(routes.home, {
+        state: {
+          message: "Account created. Please log in.",
+          username,
+          password,
+        },
+      });
     }
-    navigate(routes.home, {
-      state: { message: "Account created. Please log in.", username, password },
-    });
   };
-  const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+  const [createAccount, { loading }] = useCreateAccountMutation({
     onCompleted,
   });
   const onSubmitValid: SubmitHandler<FormData> = (data) => {
