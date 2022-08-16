@@ -1,10 +1,14 @@
+import { gql, useMutation } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
 import BottomBox from "../components/auth/BottomBox";
 import Button from "../components/auth/Button";
 import FormBox from "../components/auth/FormBox";
+import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Input";
 import PageTitle from "../components/PageTitle";
 import { FatLink } from "../components/shared";
@@ -22,7 +26,71 @@ const Subtitle = styled(FatLink)`
   margin-top: 10px;
 `;
 
+interface FormData {
+  firstName: string;
+  lastName?: string;
+  username: string;
+  email: string;
+  password: string;
+  result?: string;
+}
+
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount(
+    $firstName: String!
+    $lastName: String
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createAccount(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
 function SignUp() {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+    formState: { errors, isValid },
+  } = useForm<FormData>({
+    mode: "onChange",
+  });
+  const onCompleted = (data: any) => {
+    const { username, password } = getValues();
+    const {
+      createAccount: { ok, error },
+    } = data;
+    if (!ok) {
+      setError("result", { message: error });
+      return;
+    }
+    navigate(routes.home, {
+      state: { message: "Account created. Please log in.", username, password },
+    });
+  };
+  const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    onCompleted,
+  });
+  const onSubmitValid: SubmitHandler<FormData> = (data) => {
+    if (loading) return;
+    createAccount({ variables: { ...data } });
+  };
+  const clearError = () => {
+    clearErrors("result");
+  };
   return (
     <AuthLayout>
       <PageTitle title="Sign up" />
@@ -33,12 +101,58 @@ function SignUp() {
             Sign up to see photos and videos from your friends.
           </Subtitle>
         </HeaderContainer>
-        <form>
-          <Input type="text" placeholder="Name" />
-          <Input type="text" placeholder="Email" />
-          <Input type="text" placeholder="Username" />
-          <Input type="password" placeholder="Password" />
-          <Button type="submit" value="Sign up" />
+        <form onSubmit={handleSubmit(onSubmitValid)}>
+          <Input
+            {...register("firstName", {
+              required: "First Name is required",
+            })}
+            onFocus={clearError}
+            type="text"
+            placeholder="First Name"
+          />
+          <FormError message={errors.firstName?.message} />
+          <Input
+            {...register("lastName")}
+            type="text"
+            placeholder="Last Name"
+          />
+          <Input
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/,
+                message: "Only allow email",
+              },
+            })}
+            type="text"
+            placeholder="Email"
+          />
+          <FormError message={errors.email?.message} />
+          <Input
+            {...register("username", {
+              required: "Username is required",
+              minLength: {
+                value: 5,
+                message: "Username should be longer than 5 chars.",
+              },
+            })}
+            type="text"
+            placeholder="Username"
+          />
+          <FormError message={errors.username?.message} />
+          <Input
+            {...register("password", { required: "Password is required." })}
+            type="password"
+            placeholder="Password"
+          />
+          <FormError message={errors.password?.message} />
+          <Button
+            type="submit"
+            value={loading ? "Loading..." : "Sign up"}
+            disabled={!isValid || loading}
+          />
+          <FormError message={errors.result?.message} />
         </form>
       </FormBox>
       <BottomBox cta="Have an account?" linkText="Log in" link={routes.home} />
