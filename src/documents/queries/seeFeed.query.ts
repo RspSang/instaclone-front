@@ -14,6 +14,7 @@ gql`
       comments
       createdAt
       isMine
+      isLiked
     }
   }
 `;

@@ -205,6 +205,7 @@ export type Photo = {
   file: Scalars['String'];
   hashtags?: Maybe<Array<Maybe<Hashtag>>>;
   id: Scalars['Int'];
+  isLiked: Scalars['Boolean'];
   isMine: Scalars['Boolean'];
   likes: Scalars['Int'];
   updatedAt: Scalars['String'];
@@ -373,12 +374,19 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'LoginResult', ok: boolean, error?: string | null, token?: string | null } | null };
 
+export type ToggleLikeMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type ToggleLikeMutation = { __typename?: 'Mutation', toggleLike: { __typename?: 'MutationResponse', ok: boolean, error?: string | null } };
+
 export type SeeFeedQueryVariables = Exact<{
   page: Scalars['Int'];
 }>;
 
 
-export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', id: number, file: string, caption?: string | null, likes: number, comments: number, createdAt: string, isMine: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null } | null> | null };
+export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', id: number, file: string, caption?: string | null, likes: number, comments: number, createdAt: string, isMine: boolean, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null } | null> | null };
 
 
 export const CreateAccountDocument = gql`
@@ -461,6 +469,40 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const ToggleLikeDocument = gql`
+    mutation toggleLike($id: Int!) {
+  toggleLike(id: $id) {
+    ok
+    error
+  }
+}
+    `;
+export type ToggleLikeMutationFn = Apollo.MutationFunction<ToggleLikeMutation, ToggleLikeMutationVariables>;
+
+/**
+ * __useToggleLikeMutation__
+ *
+ * To run a mutation, you first call `useToggleLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleLikeMutation, { data, loading, error }] = useToggleLikeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useToggleLikeMutation(baseOptions?: Apollo.MutationHookOptions<ToggleLikeMutation, ToggleLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ToggleLikeMutation, ToggleLikeMutationVariables>(ToggleLikeDocument, options);
+      }
+export type ToggleLikeMutationHookResult = ReturnType<typeof useToggleLikeMutation>;
+export type ToggleLikeMutationResult = Apollo.MutationResult<ToggleLikeMutation>;
+export type ToggleLikeMutationOptions = Apollo.BaseMutationOptions<ToggleLikeMutation, ToggleLikeMutationVariables>;
 export const SeeFeedDocument = gql`
     query seeFeed($page: Int!) {
   seeFeed(page: $page) {
@@ -475,6 +517,7 @@ export const SeeFeedDocument = gql`
     comments
     createdAt
     isMine
+    isLiked
   }
 }
     `;
