@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { ApolloCache } from "@apollo/client";
 import {
   faBookmark,
   faComment,
@@ -98,47 +98,20 @@ function Photo({
   commentNumber,
   comments,
 }: PhotoProps) {
-  const [toggleLikeMutation, { loading }] = useToggleLikeMutation();
-
-  const handleToggleLike = () => {
-    if (loading) return;
-    if (id) {
-      toggleLikeMutation({
-        variables: { id },
-        update: (caches, result: any) => {
-          const {
-            data: {
-              toggleLike: { ok },
-            },
-          } = result;
-          if (ok) {
-            const fragmentId = `Photo:${id}`;
-            const fragment = gql`
-              fragment BSName on Photo {
-                isLiked
-                likes
-              }
-            `;
-            const result: any = caches.readFragment({
-              id: fragmentId,
-              fragment,
-            });
-            if ("isLiked" in result && "likes" in result) {
-              const { isLiked: cacheIsLiked, likes: cacheLikes } = result;
-              caches.writeFragment({
-                id: fragmentId,
-                fragment,
-                data: {
-                  isLiked: !cacheIsLiked,
-                  likes: cacheIsLiked ? cacheLikes - 1 : cacheLikes + 1,
-                },
-              });
-            }
-          }
+  const [toggleLikeMutation] = useToggleLikeMutation({
+    variables: {
+      id: id ? id : 0,
+    },
+    update: (cache) => {
+      cache.modify({
+        id: `Photo:${id}`,
+        fields: {
+          isLiked: (prev) => !prev,
+          likes: (prev) => (isLiked ? prev - 1 : prev + 1),
         },
       });
-    }
-  };
+    },
+  });
 
   return (
     <PhotoContainer key={id}>
@@ -150,7 +123,7 @@ function Photo({
       <PhotoData>
         <PhotoActions>
           <div>
-            <PhotoAction onClick={handleToggleLike}>
+            <PhotoAction onClick={() => toggleLikeMutation()}>
               <FontAwesomeIcon
                 style={{ color: isLiked ? "tomato" : "inherit" }}
                 icon={isLiked ? SolidHeart : faHeart}
