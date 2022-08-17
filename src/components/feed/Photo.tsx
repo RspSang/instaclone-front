@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { useToggleLikeMutation } from "../../generated/graphql";
 import Avatar from "../auth/Avatar";
 import { FatText } from "../shared";
+import Comments from "./Comments";
 
 const PhotoContainer = styled.div`
   background-color: white;
@@ -63,19 +64,40 @@ const Likes = styled(FatText)`
   display: block;
 `;
 
+export interface IComment {
+  id: number;
+  payload: string;
+  isMine: boolean;
+  createdAt: string;
+  user: {
+    username: string;
+    avatar?: string | null;
+  };
+}
+
 interface PhotoProps {
   id?: number;
   user?: { username: string; avatar?: string | null } | null;
   file?: string;
   caption?: string | null;
   likes?: number;
-  comments?: number;
+  commentNumber?: number;
+  comments?: (IComment | null)[] | null;
   createdAt?: string;
   isMine?: boolean;
   isLiked?: boolean;
 }
 
-function Photo({ id, user, file, isLiked, likes }: PhotoProps) {
+function Photo({
+  id,
+  user,
+  file,
+  isLiked,
+  likes,
+  caption,
+  commentNumber,
+  comments,
+}: PhotoProps) {
   const [toggleLikeMutation, { loading }] = useToggleLikeMutation();
 
   const handleToggleLike = () => {
@@ -146,6 +168,12 @@ function Photo({ id, user, file, isLiked, likes }: PhotoProps) {
           </div>
         </PhotoActions>
         <Likes>{likes === 1 ? "1 like" : `${likes} likes`}</Likes>
+        <Comments
+          author={user?.username}
+          caption={caption}
+          commentNumber={commentNumber}
+          comments={comments}
+        />
       </PhotoData>
     </PhotoContainer>
   );

@@ -200,7 +200,8 @@ export type MutationResponse = {
 export type Photo = {
   __typename?: 'Photo';
   caption?: Maybe<Scalars['String']>;
-  comments: Scalars['Int'];
+  commentNumber: Scalars['Int'];
+  comments?: Maybe<Array<Maybe<Comment>>>;
   createdAt: Scalars['String'];
   file: Scalars['String'];
   hashtags?: Maybe<Array<Maybe<Hashtag>>>;
@@ -386,7 +387,7 @@ export type SeeFeedQueryVariables = Exact<{
 }>;
 
 
-export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', id: number, file: string, caption?: string | null, likes: number, comments: number, createdAt: string, isMine: boolean, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null } | null> | null };
+export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', id: number, file: string, caption?: string | null, likes: number, commentNumber: number, createdAt: string, isMine: boolean, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
 
 
 export const CreateAccountDocument = gql`
@@ -514,7 +515,17 @@ export const SeeFeedDocument = gql`
     file
     caption
     likes
-    comments
+    commentNumber
+    comments {
+      id
+      user {
+        username
+        avatar
+      }
+      payload
+      isMine
+      createdAt
+    }
     createdAt
     isMine
     isLiked

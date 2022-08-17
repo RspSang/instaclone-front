@@ -4,7 +4,6 @@ import { useSeeFeedQuery } from "../generated/graphql";
 
 function Home() {
   const { data } = useSeeFeedQuery({ variables: { page: 1 } });
-
   return (
     <div>
       <PageTitle title="Home" />
