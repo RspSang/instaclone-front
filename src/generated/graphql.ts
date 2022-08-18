@@ -89,7 +89,7 @@ export type Message = {
 export type Mutation = {
   __typename?: 'Mutation';
   createAccount?: Maybe<CreateAccountResult>;
-  createComment: MutationResponse;
+  createComment?: Maybe<MutationResponse>;
   deleteComment: MutationResponse;
   deletePhoto: MutationResponse;
   editComment: MutationResponse;
@@ -99,7 +99,7 @@ export type Mutation = {
   login?: Maybe<LoginResult>;
   readMessage: MutationResponse;
   sendMessage: MutationResponse;
-  toggleLike: MutationResponse;
+  toggleLike?: Maybe<MutationResponse>;
   unfollowUser?: Maybe<UnfollowUserResult>;
   uploadPhoto?: Maybe<Photo>;
 };
@@ -194,6 +194,7 @@ export type MutationUploadPhotoArgs = {
 export type MutationResponse = {
   __typename?: 'MutationResponse';
   error?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
   ok: Scalars['Boolean'];
 };
 
@@ -367,6 +368,14 @@ export type CreateAccountMutationVariables = Exact<{
 
 export type CreateAccountMutation = { __typename?: 'Mutation', createAccount?: { __typename?: 'CreateAccountResult', ok: boolean, error?: string | null } | null };
 
+export type CreateCommentMutationVariables = Exact<{
+  photoId: Scalars['Int'];
+  payload: Scalars['String'];
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'MutationResponse', ok: boolean, id?: number | null, error?: string | null } | null };
+
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -380,7 +389,7 @@ export type ToggleLikeMutationVariables = Exact<{
 }>;
 
 
-export type ToggleLikeMutation = { __typename?: 'Mutation', toggleLike: { __typename?: 'MutationResponse', ok: boolean, error?: string | null } };
+export type ToggleLikeMutation = { __typename?: 'Mutation', toggleLike?: { __typename?: 'MutationResponse', ok: boolean, error?: string | null } | null };
 
 export type SeeFeedQueryVariables = Exact<{
   page: Scalars['Int'];
@@ -434,6 +443,42 @@ export function useCreateAccountMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateAccountMutationHookResult = ReturnType<typeof useCreateAccountMutation>;
 export type CreateAccountMutationResult = Apollo.MutationResult<CreateAccountMutation>;
 export type CreateAccountMutationOptions = Apollo.BaseMutationOptions<CreateAccountMutation, CreateAccountMutationVariables>;
+export const CreateCommentDocument = gql`
+    mutation createComment($photoId: Int!, $payload: String!) {
+  createComment(photoId: $photoId, payload: $payload) {
+    ok
+    id
+    error
+  }
+}
+    `;
+export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      photoId: // value for 'photoId'
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
+      }
+export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
+export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
   login(username: $username, password: $password) {
