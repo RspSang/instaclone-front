@@ -1,10 +1,17 @@
-import { useQuery } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/auth/Button";
+import PageTitle from "../components/PageTitle";
 import { FatText } from "../components/shared";
-import { useSeeProfileQuery } from "../generated/graphql";
+import {
+  useFollowUserMutation,
+  useSeeProfileQuery,
+  useUnfollowUserMutation,
+} from "../generated/graphql";
+import useUser from "../hooks/useUser";
 
 const Header = styled.div`
   display: flex;
@@ -25,6 +32,8 @@ const Username = styled.h3`
 const Row = styled.div`
   margin-bottom: 20px;
   font-size: 16px;
+  display: flex;
+  align-items: center;
 `;
 const List = styled.ul`
   display: flex;
@@ -79,19 +88,109 @@ const Icon = styled.span`
   }
 `;
 
+const ProfileBtn = styled(Button).attrs({
+  as: "span",
+})`
+  margin-left: 10px;
+  margin-top: 0px;
+  padding: 10px 5px;
+  cursor: pointer;
+`;
+
 function Profile() {
   const { username } = useParams();
-  const { data } = useSeeProfileQuery({
+  const { data: userData } = useUser();
+  const apolloClient = useApolloClient();
+  const { data, loading } = useSeeProfileQuery({
     variables: { username: username!, page: 1 },
   });
+  const [unfollowUser] = useUnfollowUserMutation({
+    variables: { username: username! },
+    update: (cache, result) => {
+      if (!result.data?.unfollowUser) return;
+      const {
+        data: {
+          unfollowUser: { ok },
+        },
+      } = result;
+      if (!ok) {
+        return;
+      }
+      cache.modify({
+        id: `User:${username}`,
+        fields: {
+          isFollowing(prev) {
+            return false;
+          },
+          totalFollowers(prev) {
+            return prev - 1;
+          },
+        },
+      });
+      const { me } = userData;
+      cache.modify({
+        id: `User:${me.username}`,
+        fields: {
+          totalFollowing(prev) {
+            return prev - 1;
+          },
+        },
+      });
+    },
+  });
+  const [followUser] = useFollowUserMutation({
+    variables: { username: username! },
+    onCompleted: (data) => {
+      if (!data?.followUser?.ok) return;
+      const {
+        followUser: { ok },
+      } = data;
+      if (!ok) return;
+      const { cache } = apolloClient;
+      cache.modify({
+        id: `User:${username}`,
+        fields: {
+          isFollowing: () => true,
+          totalFollowers: (prev) => prev + 1,
+        },
+      });
+      const { me } = userData;
+      cache.modify({
+        id: `User:${me.username}`,
+        fields: {
+          totalFollowing(prev) {
+            return prev + 1;
+          },
+        },
+      });
+    },
+  });
+
+  const getButton = (seeProfile: { isMe: boolean; isFollowing: boolean }) => {
+    const { isMe, isFollowing } = seeProfile;
+    if (isMe) {
+      return <ProfileBtn>Edit Profile</ProfileBtn>;
+    }
+    if (isFollowing) {
+      return <ProfileBtn onClick={() => unfollowUser()}>Unfollow</ProfileBtn>;
+    } else {
+      return <ProfileBtn onClick={() => followUser()}>Follow</ProfileBtn>;
+    }
+  };
 
   return (
     <div>
+      <PageTitle
+        title={
+          loading ? "Loading..." : `${data?.seeProfile?.username}'s Profile`
+        }
+      />
       <Header>
         <Avatar src={data?.seeProfile?.avatar!} />
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>
+            {data?.seeProfile ? getButton(data.seeProfile) : null}
           </Row>
           <Row>
             <List>
@@ -119,7 +218,7 @@ function Profile() {
       </Header>
       <Grid>
         {data?.seeProfile?.photos?.map((photo) => (
-          <Photo bg={photo?.file}>
+          <Photo key={photo?.id} bg={photo?.file}>
             <Icons>
               <Icon>
                 <FontAwesomeIcon icon={faHeart} />
