@@ -3,15 +3,10 @@ import { gql } from "@apollo/client";
 gql`
   query seeFeed($page: Int!) {
     seeFeed(page: $page) {
-      id
       user {
         username
         avatar
       }
-      file
-      caption
-      likes
-      commentNumber
       comments {
         id
         user {
@@ -22,8 +17,13 @@ gql`
         isMine
         createdAt
       }
+      caption
       createdAt
       isMine
+      id
+      file
+      likes
+      commentNumber
       isLiked
     }
   }

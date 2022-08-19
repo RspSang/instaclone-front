@@ -27,7 +27,7 @@ interface CommentProps {
 
 function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
   const [deleteComment, { loading }] = useDeleteCommentMutation({
-    variables: { id: id!},
+    variables: { id: id! },
     update: (cache, result) => {
       if (!result?.data?.deleteComment) return;
       const {
@@ -53,7 +53,9 @@ function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
   };
   return (
     <CommentContainer>
-      <FatText>{author}</FatText>
+      <Link to={`/users/${author}`}>
+        <FatText>{author}</FatText>
+      </Link>
       <CommentCaption>
         {payload?.split(" ").map((word, index) =>
           /#[a-zA-Z0-9가-힇ㄱ-ㅎㅏ-ㅣぁ-ゔァ-ヴー々〆〤一-龥\w]+/g.test(

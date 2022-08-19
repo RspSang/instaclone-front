@@ -403,7 +403,15 @@ export type SeeFeedQueryVariables = Exact<{
 }>;
 
 
-export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', id: number, file: string, caption?: string | null, likes: number, commentNumber: number, createdAt: string, isMine: boolean, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
+export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, id: number, file: string, likes: number, commentNumber: number, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
+
+export type SeeProfileQueryVariables = Exact<{
+  username: Scalars['String'];
+  page: Scalars['Int'];
+}>;
+
+
+export type SeeProfileQuery = { __typename?: 'Query', seeProfile?: { __typename?: 'User', firstName: string, lastName?: string | null, bio?: string | null, username: string, avatar?: string | null, totalFollowing: number, totalFollowers: number, isMe: boolean, isFollowing: boolean, photos?: Array<{ __typename?: 'Photo', id: number, file: string, likes: number, commentNumber: number, isLiked: boolean } | null> | null } | null };
 
 
 export const CreateAccountDocument = gql`
@@ -592,15 +600,10 @@ export type ToggleLikeMutationOptions = Apollo.BaseMutationOptions<ToggleLikeMut
 export const SeeFeedDocument = gql`
     query seeFeed($page: Int!) {
   seeFeed(page: $page) {
-    id
     user {
       username
       avatar
     }
-    file
-    caption
-    likes
-    commentNumber
     comments {
       id
       user {
@@ -611,8 +614,13 @@ export const SeeFeedDocument = gql`
       isMine
       createdAt
     }
+    caption
     createdAt
     isMine
+    id
+    file
+    likes
+    commentNumber
     isLiked
   }
 }
@@ -645,3 +653,54 @@ export function useSeeFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Se
 export type SeeFeedQueryHookResult = ReturnType<typeof useSeeFeedQuery>;
 export type SeeFeedLazyQueryHookResult = ReturnType<typeof useSeeFeedLazyQuery>;
 export type SeeFeedQueryResult = Apollo.QueryResult<SeeFeedQuery, SeeFeedQueryVariables>;
+export const SeeProfileDocument = gql`
+    query seeProfile($username: String!, $page: Int!) {
+  seeProfile(username: $username) {
+    firstName
+    lastName
+    bio
+    username
+    avatar
+    photos(page: $page) {
+      id
+      file
+      likes
+      commentNumber
+      isLiked
+    }
+    totalFollowing
+    totalFollowers
+    isMe
+    isFollowing
+  }
+}
+    `;
+
+/**
+ * __useSeeProfileQuery__
+ *
+ * To run a query within a React component, call `useSeeProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSeeProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSeeProfileQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *      page: // value for 'page'
+ *   },
+ * });
+ */
+export function useSeeProfileQuery(baseOptions: Apollo.QueryHookOptions<SeeProfileQuery, SeeProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SeeProfileQuery, SeeProfileQueryVariables>(SeeProfileDocument, options);
+      }
+export function useSeeProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SeeProfileQuery, SeeProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SeeProfileQuery, SeeProfileQueryVariables>(SeeProfileDocument, options);
+        }
+export type SeeProfileQueryHookResult = ReturnType<typeof useSeeProfileQuery>;
+export type SeeProfileLazyQueryHookResult = ReturnType<typeof useSeeProfileLazyQuery>;
+export type SeeProfileQueryResult = Apollo.QueryResult<SeeProfileQuery, SeeProfileQueryVariables>;
