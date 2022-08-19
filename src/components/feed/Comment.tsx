@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDeleteCommentMutation } from "../../generated/graphql";
 import { FatText } from "../shared";
 
 const CommentContainer = styled.div``;
@@ -17,11 +18,39 @@ const CommentCaption = styled.span`
 `;
 
 interface CommentProps {
+  id?: number;
   author?: string;
+  photoId?: number;
   payload?: string | null;
+  isMine?: boolean;
 }
 
-function Comment({ author, payload }: CommentProps) {
+function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
+  const [deleteComment, { loading }] = useDeleteCommentMutation({
+    variables: { id: id!},
+    update: (cache, result) => {
+      if (!result?.data?.deleteComment) return;
+      const {
+        data: {
+          deleteComment: { ok },
+        },
+      } = result;
+      if (ok) {
+        cache.evict({ id: `Comment:${id}` });
+        cache.modify({
+          id: `Photo:${photoId}`,
+          fields: {
+            commentNumber(prev) {
+              return prev - 1;
+            },
+          },
+        });
+      }
+    },
+  });
+  const onDeleteClick = () => {
+    deleteComment();
+  };
   return (
     <CommentContainer>
       <FatText>{author}</FatText>
@@ -38,6 +67,7 @@ function Comment({ author, payload }: CommentProps) {
           )
         )}
       </CommentCaption>
+      {isMine ? <button onClick={onDeleteClick}>x</button> : ""}
     </CommentContainer>
   );
 }
