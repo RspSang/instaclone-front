@@ -1,3 +1,5 @@
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -17,6 +19,13 @@ const CommentCaption = styled.span`
   }
 `;
 
+const CommentDelete = styled.span`
+  margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 interface CommentProps {
   id?: number;
   author?: string;
@@ -26,7 +35,7 @@ interface CommentProps {
 }
 
 function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
-  const [deleteComment, { loading }] = useDeleteCommentMutation({
+  const [deleteComment] = useDeleteCommentMutation({
     variables: { id: id! },
     update: (cache, result) => {
       if (!result?.data?.deleteComment) return;
@@ -69,7 +78,13 @@ function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
           )
         )}
       </CommentCaption>
-      {isMine ? <button onClick={onDeleteClick}>x</button> : ""}
+      {isMine ? (
+        <CommentDelete onClick={onDeleteClick}>
+          <FontAwesomeIcon icon={faTrashCan} />
+        </CommentDelete>
+      ) : (
+        ""
+      )}
     </CommentContainer>
   );
 }

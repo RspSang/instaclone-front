@@ -1,4 +1,3 @@
-import { ApolloCache } from "@apollo/client";
 import {
   faBookmark,
   faComment,
