@@ -245,7 +245,7 @@ export type QuerySearchUsersArgs = {
 
 
 export type QuerySeeFeedArgs = {
-  page: Scalars['Int'];
+  offset: Scalars['Int'];
 };
 
 
@@ -413,7 +413,7 @@ export type UnfollowUserMutationVariables = Exact<{
 export type UnfollowUserMutation = { __typename?: 'Mutation', unfollowUser?: { __typename?: 'UnfollowUserResult', ok: boolean } | null };
 
 export type SeeFeedQueryVariables = Exact<{
-  page: Scalars['Int'];
+  offset: Scalars['Int'];
 }>;
 
 
@@ -678,8 +678,8 @@ export type UnfollowUserMutationHookResult = ReturnType<typeof useUnfollowUserMu
 export type UnfollowUserMutationResult = Apollo.MutationResult<UnfollowUserMutation>;
 export type UnfollowUserMutationOptions = Apollo.BaseMutationOptions<UnfollowUserMutation, UnfollowUserMutationVariables>;
 export const SeeFeedDocument = gql`
-    query seeFeed($page: Int!) {
-  seeFeed(page: $page) {
+    query seeFeed($offset: Int!) {
+  seeFeed(offset: $offset) {
     user {
       username
       avatar
@@ -718,7 +718,7 @@ export const SeeFeedDocument = gql`
  * @example
  * const { data, loading, error } = useSeeFeedQuery({
  *   variables: {
- *      page: // value for 'page'
+ *      offset: // value for 'offset'
  *   },
  * });
  */

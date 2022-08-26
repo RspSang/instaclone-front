@@ -3,7 +3,7 @@ import PageTitle from "../components/PageTitle";
 import { useSeeFeedQuery } from "../generated/graphql";
 
 function Home() {
-  const { data } = useSeeFeedQuery({ variables: { page: 1 } });
+  const { data } = useSeeFeedQuery({ variables: { offset: 1 } });
   return (
     <div>
       <PageTitle title="Home" />

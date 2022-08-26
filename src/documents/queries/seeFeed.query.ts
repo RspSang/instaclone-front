@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 gql`
-  query seeFeed($page: Int!) {
-    seeFeed(page: $page) {
+  query seeFeed($offset: Int!) {
+    seeFeed(offset: $offset) {
       user {
         username
         avatar
