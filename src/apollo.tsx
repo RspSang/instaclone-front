@@ -37,7 +37,10 @@ export const disableDarkMode = () => {
 };
 
 const httpLink = createHttpLink({
-  uri: "https://fcd3-126-107-180-162.jp.ngrok.io/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://rspsang-instaclone.herokuapp.com/graphql"
+      : "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
