@@ -6,6 +6,7 @@ export const lightTheme: DefaultTheme = {
   bgColor: "#FAFAFA",
   fontColor: "rgb(38, 38, 38)",
   borderColor: "rgb(219, 219, 219)",
+  buttonFontColor: "#f5f6fa",
 };
 
 export const darkTheme: DefaultTheme = {
@@ -13,6 +14,7 @@ export const darkTheme: DefaultTheme = {
   borderColor: "rgb(219,219,219)",
   fontColor: "white",
   bgColor: "#2c2c2c",
+  buttonFontColor: "#f5f6fa",
 };
 
 export const GlobalStyles = createGlobalStyle`

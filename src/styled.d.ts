@@ -6,5 +6,6 @@ declare module "styled-components" {
     fontColor?: string;
     accent?: string;
     bgColor?: string;
+    buttonFontColor?: string;
   }
 }

@@ -1,14 +1,15 @@
 import { useReactiveVar } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faCompass } from "@fortawesome/free-regular-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { isLoggedInVar } from "../apollo";
-import useUser from "../hooks/useUser";
-import routes from "../routes";
-import Avatar from "./auth/Avatar";
+import { isLoggedInVar } from "../../apollo";
+import useUser from "../../hooks/useUser";
+import routes from "../../routes";
+import Avatar from "../auth/Avatar";
+import Upload from "./upload";
 
 const SHeader = styled.header`
   width: 100%;
@@ -54,7 +55,9 @@ function Header() {
     <SHeader>
       <Wrapper>
         <Column>
-          <FontAwesomeIcon icon={faInstagram} size="2x" />
+          <Link to={"/"}>
+            <FontAwesomeIcon icon={faInstagram} size="2x" />
+          </Link>
         </Column>
         <Column>
           {isLoggedIn ? (
@@ -66,7 +69,10 @@ function Header() {
                   </Link>
                 </Icon>
                 <Icon>
-                  <FontAwesomeIcon icon={faCompass} size="lg" />
+                  <FontAwesomeIcon icon={faPaperPlane} size="lg" />
+                </Icon>
+                <Icon>
+                  <Upload {...data?.me} />
                 </Icon>
                 <Icon>
                   <Link to={`/users/${data?.me?.username}`}>
