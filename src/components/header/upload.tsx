@@ -1,9 +1,13 @@
-import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCheckCircle,
+  faPlusSquare,
+} from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft, faPhotoFilm } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useUploadPhotoMutation } from "../../generated/graphql";
 
 interface UploadProps {
   username?: string;
@@ -16,25 +20,26 @@ interface FileDataForm {
   caption: string;
 }
 
-const Container = styled.div`
+const SContainer = styled.div`
   position: fixed;
-  z-index: 1;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 `;
 
 const Modal = styled.div`
-  z-index: 2;
+  position: absolute;
+  width: 40%;
+  height: 40%;
   background-color: ${(props) => props.theme.bgColor};
-  margin: 15% auto;
-  border: 1px solid #888;
-  width: 70%;
   border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 `;
 
 const Title = styled.div`
@@ -58,7 +63,7 @@ const Next = styled.span`
   cursor: pointer;
 `;
 
-const InputContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,6 +90,8 @@ const FileInput = styled.input`
 `;
 
 const ImgContainer = styled.div`
+  width: 500px;
+  height: 500px;
   overflow: hidden;
 `;
 
@@ -123,12 +130,38 @@ const ProfileName = styled.span`
   font-weight: 600;
 `;
 
+const Text = styled.span`
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.fontColor};
+`;
+
 export default function Upload({ username, avatar }: UploadProps) {
-  const { register, handleSubmit, watch, getValues } = useForm<FileDataForm>();
+  const { register, handleSubmit, watch, getValues, setValue } =
+    useForm<FileDataForm>();
   const [imagePreview, setImagePreview] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
-  const [] = use
+  const [uploadPhotoMutation, { data, loading }] = useUploadPhotoMutation({
+    update: (cache, result) => {
+      if (!result.data?.uploadPhoto) return;
+      const {
+        data: { uploadPhoto },
+      } = result;
+      if (uploadPhoto.id) {
+        cache.modify({
+          id: "ROOT_QUERY",
+          fields: {
+            seeFeed(prev) {
+              return [uploadPhoto, ...prev];
+            },
+          },
+        });
+      }
+    },
+  });
 
   const handleClicked = () => {
     setClicked((prev) => !prev);
@@ -137,9 +170,20 @@ export default function Upload({ username, avatar }: UploadProps) {
 
   const handleBackClicked = () => {
     setImagePreview("");
+    setValue("caption", "");
+    setConfirm(false);
   };
 
-  const onValid = () => {};
+  const onValid = () => {
+    if (loading) return;
+    const { imageFile, caption } = getValues();
+    uploadPhotoMutation({
+      variables: {
+        file: imageFile[0],
+        caption,
+      },
+    });
+  };
 
   const imageFile = watch("imageFile");
 
@@ -150,62 +194,80 @@ export default function Upload({ username, avatar }: UploadProps) {
     }
   }, [imageFile]);
 
+  useEffect(() => {
+    if (data) {
+      setConfirm(true);
+    }
+  }, [data]);
+
   return (
     <>
       {clicked && (
-        <Container onClick={handleClicked}>
+        <SContainer onClick={handleClicked}>
           <Modal onClick={(e) => e.stopPropagation()}>
-            {imagePreview ? (
+            {confirm ? (
               <>
-                <ConfirmTitle>
-                  <FontAwesomeIcon
-                    icon={faArrowLeft}
-                    onClick={handleBackClicked}
-                    style={{ cursor: "pointer" }}
-                  />
-                  <span>新規投稿を作成</span>
-                  <Next onClick={handleSubmit(onValid)}>ジェア</Next>
-                </ConfirmTitle>
-                <ConfirmContainer>
-                  <ImgContainer>
-                    <PreviewImg src={imagePreview} />
-                  </ImgContainer>
-                  <CaptionContainer>
-                    <Profile>
-                      <ProfileAvatar src={avatar} />
-                      <ProfileName>{username}</ProfileName>
-                    </Profile>
-                    <form>
-                      <CaptionInput
-                        {...register("caption", { required: true })}
-                        type="text"
-                        placeholder="キャプションを入力..."
-                      />
-                    </form>
-                  </CaptionContainer>
-                </ConfirmContainer>
+                <Title>完了</Title>
+                <Container>
+                  <FontAwesomeIcon icon={faCheckCircle} size="5x" />
+                  <Text>投稿完了</Text>
+                </Container>
               </>
             ) : (
               <>
-                <Title>新規投稿を作成</Title>
-                <form>
-                  <InputContainer>
-                    <FontAwesomeIcon icon={faPhotoFilm} size="5x" />
-                    <InputLabel htmlFor="imageFile">
-                      コンピューターから選択
-                    </InputLabel>
-                    <FileInput
-                      type="file"
-                      accept="image/*"
-                      id="imageFile"
-                      {...register("imageFile", { required: true })}
-                    />
-                  </InputContainer>
-                </form>
+                {imagePreview ? (
+                  <>
+                    <ConfirmTitle>
+                      <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        onClick={handleBackClicked}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <span>新規投稿を作成</span>
+                      <Next onClick={handleSubmit(onValid)}>ジェア</Next>
+                    </ConfirmTitle>
+                    <ConfirmContainer>
+                      <ImgContainer>
+                        <PreviewImg src={imagePreview} />
+                      </ImgContainer>
+                      <CaptionContainer>
+                        <Profile>
+                          <ProfileAvatar src={avatar} />
+                          <ProfileName>{username}</ProfileName>
+                        </Profile>
+                        <form>
+                          <CaptionInput
+                            {...register("caption", { required: true })}
+                            type="text"
+                            placeholder="キャプションを入力..."
+                          />
+                        </form>
+                      </CaptionContainer>
+                    </ConfirmContainer>
+                  </>
+                ) : (
+                  <>
+                    <Title>新規投稿を作成</Title>
+                    <form>
+                      <Container>
+                        <FontAwesomeIcon icon={faPhotoFilm} size="5x" />
+                        <InputLabel htmlFor="imageFile">
+                          コンピューターから選択
+                        </InputLabel>
+                        <FileInput
+                          type="file"
+                          accept="image/*"
+                          id="imageFile"
+                          {...register("imageFile", { required: true })}
+                        />
+                      </Container>
+                    </form>
+                  </>
+                )}
               </>
             )}
           </Modal>
-        </Container>
+        </SContainer>
       )}
       <FontAwesomeIcon icon={faPlusSquare} size="lg" onClick={handleClicked} />
     </>

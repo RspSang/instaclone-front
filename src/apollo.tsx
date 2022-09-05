@@ -1,9 +1,11 @@
 import {
   ApolloClient,
+  ApolloLink,
   createHttpLink,
   InMemoryCache,
   makeVar,
 } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 import { NavigateFunction } from "react-router-dom";
 import routes from "./routes";
 import { setContext } from "@apollo/client/link/context";
@@ -52,8 +54,15 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const uploadHttpLink: ApolloLink = createUploadLink({
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://rspsang-instaclone.herokuapp.com/graphql"
+      : "http://localhost:4000/graphql",
+});
+
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(uploadHttpLink),
   cache: new InMemoryCache({
     typePolicies: {
       User: {
