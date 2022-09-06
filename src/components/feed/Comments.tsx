@@ -57,7 +57,7 @@ function Comments({
               createComment: { ok, id },
             },
           } = result;
-          if (ok && userData.me) {
+          if (ok && userData?.me) {
             const newComment = {
               __typename: "Comment",
               createdAt: Date.now() + "",

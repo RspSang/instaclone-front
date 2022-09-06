@@ -1,9 +1,8 @@
 import { useApolloClient } from "@apollo/client";
 import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
 import { FatText } from "../components/shared";
 import {
@@ -88,12 +87,12 @@ const Icon = styled.span`
   }
 `;
 
-const ProfileBtn = styled(Button).attrs({
-  as: "span",
-})`
+const ProfileBtn = styled.span`
   margin-left: 10px;
   margin-top: 0px;
-  padding: 10px 5px;
+  padding: 5px 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -127,9 +126,8 @@ function Profile() {
           },
         },
       });
-      const { me } = userData;
       cache.modify({
-        id: `User:${me.username}`,
+        id: `User:${userData?.me.username}`,
         fields: {
           totalFollowing(prev) {
             return prev - 1;
@@ -154,9 +152,8 @@ function Profile() {
           totalFollowers: (prev) => prev + 1,
         },
       });
-      const { me } = userData;
       cache.modify({
-        id: `User:${me.username}`,
+        id: `User:${userData?.me.username}`,
         fields: {
           totalFollowing(prev) {
             return prev + 1;
@@ -169,7 +166,11 @@ function Profile() {
   const getButton = (seeProfile: { isMe: boolean; isFollowing: boolean }) => {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
-      return <ProfileBtn>Edit Profile</ProfileBtn>;
+      return (
+        <Link to={`/users/${username}/edit`}>
+          <ProfileBtn>プロフィールを編集</ProfileBtn>
+        </Link>
+      );
     }
     if (isFollowing) {
       return <ProfileBtn onClick={() => unfollowUser()}>Unfollow</ProfileBtn>;
@@ -190,7 +191,7 @@ function Profile() {
         <Column>
           <Row>
             <Username>{data?.seeProfile?.username}</Username>
-            {data?.seeProfile ? getButton(data.seeProfile) : null}
+            {data?.seeProfile && getButton(data.seeProfile)}
           </Row>
           <Row>
             <List>

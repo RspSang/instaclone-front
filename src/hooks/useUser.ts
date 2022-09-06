@@ -6,15 +6,29 @@ const ME_QUERY = gql`
   query me {
     me {
       id
+      firstName
+      lastName
       username
+      email
       avatar
     }
   }
 `;
 
+interface MeResponse {
+  me: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    avatar: string;
+  };
+}
+
 function useUser() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const { data } = useQuery(ME_QUERY, { skip: !isLoggedIn });
+  const { data } = useQuery<MeResponse>(ME_QUERY, { skip: !isLoggedIn });
   useEffect(() => {
     if (data?.me === null) {
       logUserOut();
