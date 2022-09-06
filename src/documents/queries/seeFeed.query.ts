@@ -4,6 +4,7 @@ gql`
   query seeFeed($offset: Int!) {
     seeFeed(offset: $offset) {
       user {
+        id
         username
         avatar
       }

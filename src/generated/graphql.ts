@@ -424,7 +424,7 @@ export type SeeFeedQueryVariables = Exact<{
 }>;
 
 
-export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, id: number, file: string, likes: number, commentNumber: number, isLiked: boolean, user?: { __typename?: 'User', username: string, avatar?: string | null } | null, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
+export type SeeFeedQuery = { __typename?: 'Query', seeFeed?: Array<{ __typename?: 'Photo', caption?: string | null, createdAt: string, isMine: boolean, id: number, file: string, likes: number, commentNumber: number, isLiked: boolean, user?: { __typename?: 'User', id: number, username: string, avatar?: string | null } | null, comments?: Array<{ __typename?: 'Comment', id: number, payload: string, isMine: boolean, createdAt: string, user: { __typename?: 'User', username: string, avatar?: string | null } } | null> | null } | null> | null };
 
 export type SeeProfileQueryVariables = Exact<{
   username: Scalars['String'];
@@ -734,6 +734,7 @@ export const SeeFeedDocument = gql`
     query seeFeed($offset: Int!) {
   seeFeed(offset: $offset) {
     user {
+      id
       username
       avatar
     }

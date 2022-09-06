@@ -9,7 +9,7 @@ import { isLoggedInVar } from "../../apollo";
 import useUser from "../../hooks/useUser";
 import routes from "../../routes";
 import Avatar from "../auth/Avatar";
-import Upload from "./upload";
+import Upload from "./Upload";
 
 const SHeader = styled.header`
   width: 100%;

@@ -9,6 +9,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { NavigateFunction } from "react-router-dom";
 import routes from "./routes";
 import { setContext } from "@apollo/client/link/context";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 const TOKEN = "TOKEN";
 const DARK_MODE = "DARK_MODE";
@@ -38,13 +39,6 @@ export const disableDarkMode = () => {
   darkModeVar(false);
 };
 
-const httpLink = createHttpLink({
-  uri:
-    process.env.NODE_ENV === "production"
-      ? "https://rspsang-instaclone.herokuapp.com/graphql"
-      : "http://localhost:4000/graphql",
-});
-
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -61,13 +55,27 @@ const uploadHttpLink: ApolloLink = createUploadLink({
       : "http://localhost:4000/graphql",
 });
 
-export const client = new ApolloClient({
-  link: authLink.concat(uploadHttpLink),
-  cache: new InMemoryCache({
-    typePolicies: {
-      User: {
-        keyFields: (obj) => `User:${obj.username}`,
+export const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        seeFeed: offsetLimitPagination(),
       },
     },
-  }),
+    User: {
+      keyFields: (obj) => `User:${obj.username}`,
+    },
+    Room: {
+      fields: {
+        messages: {
+          merge: (existing = [], incoming) => [...existing, ...incoming],
+        },
+      },
+    },
+  },
+});
+
+export const client = new ApolloClient({
+  link: authLink.concat(uploadHttpLink),
+  cache,
 });
