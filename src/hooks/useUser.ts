@@ -2,7 +2,7 @@ import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import { useEffect } from "react";
 import { isLoggedInVar, logUserOut } from "../apollo";
 
-const ME_QUERY = gql`
+export const ME_QUERY = gql`
   query me {
     me {
       id
@@ -11,6 +11,7 @@ const ME_QUERY = gql`
       username
       email
       avatar
+      bio
     }
   }
 `;
@@ -23,6 +24,7 @@ interface MeResponse {
     username: string;
     email: string;
     avatar: string;
+    bio: string;
   };
 }
 

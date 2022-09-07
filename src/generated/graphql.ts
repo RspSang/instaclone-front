@@ -382,6 +382,19 @@ export type DeleteCommentMutationVariables = Exact<{
 
 export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'MutationResponse', ok: boolean } };
 
+export type EditProfileMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  lastName?: InputMaybe<Scalars['String']>;
+  username: Scalars['String'];
+  email: Scalars['String'];
+  bio?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  avatar?: InputMaybe<Scalars['Upload']>;
+}>;
+
+
+export type EditProfileMutation = { __typename?: 'Mutation', editProfile: { __typename?: 'EditProfileResult', ok: boolean, error?: string | null } };
+
 export type FollowUserMutationVariables = Exact<{
   username: Scalars['String'];
 }>;
@@ -548,6 +561,54 @@ export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
 export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
 export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
+export const EditProfileDocument = gql`
+    mutation editProfile($firstName: String!, $lastName: String, $username: String!, $email: String!, $bio: String, $password: String, $avatar: Upload) {
+  editProfile(
+    firstName: $firstName
+    lastName: $lastName
+    username: $username
+    email: $email
+    bio: $bio
+    password: $password
+    avatar: $avatar
+  ) {
+    ok
+    error
+  }
+}
+    `;
+export type EditProfileMutationFn = Apollo.MutationFunction<EditProfileMutation, EditProfileMutationVariables>;
+
+/**
+ * __useEditProfileMutation__
+ *
+ * To run a mutation, you first call `useEditProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editProfileMutation, { data, loading, error }] = useEditProfileMutation({
+ *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      username: // value for 'username'
+ *      email: // value for 'email'
+ *      bio: // value for 'bio'
+ *      password: // value for 'password'
+ *      avatar: // value for 'avatar'
+ *   },
+ * });
+ */
+export function useEditProfileMutation(baseOptions?: Apollo.MutationHookOptions<EditProfileMutation, EditProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditProfileMutation, EditProfileMutationVariables>(EditProfileDocument, options);
+      }
+export type EditProfileMutationHookResult = ReturnType<typeof useEditProfileMutation>;
+export type EditProfileMutationResult = Apollo.MutationResult<EditProfileMutation>;
+export type EditProfileMutationOptions = Apollo.BaseMutationOptions<EditProfileMutation, EditProfileMutationVariables>;
 export const FollowUserDocument = gql`
     mutation followUser($username: String!) {
   followUser(username: $username) {
