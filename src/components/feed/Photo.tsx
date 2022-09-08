@@ -14,7 +14,7 @@ import { FatText } from "../shared";
 import Comments from "./Comments";
 
 const PhotoContainer = styled.div`
-  background-color: white;
+  background-color: ${(props) => props.theme.bgColor};
   border-radius: 4px;
   border: 1px solid ${(props) => props.theme.borderColor};
   margin-bottom: 60px;
