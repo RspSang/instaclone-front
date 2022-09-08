@@ -10,6 +10,7 @@ import useUser from "../../hooks/useUser";
 import routes from "../../routes";
 import Avatar from "../auth/Avatar";
 import DarkMode from "../DarkMode";
+import Search from "./Search";
 import Upload from "./Upload";
 
 const SHeader = styled.header`
@@ -59,6 +60,9 @@ function Header() {
           <Link to={"/"}>
             <FontAwesomeIcon icon={faInstagram} size="2x" />
           </Link>
+        </Column>
+        <Column>
+          <Search />
         </Column>
         <Column>
           {isLoggedIn ? (
