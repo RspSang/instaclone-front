@@ -3,6 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useSearchUsersLazyQuery } from "../../generated/graphql";
+import SearchUser from "./SearchUser";
+
+interface FormData {
+  keyword: string;
+}
+
+interface SearchedUser {
+  __typename?: "User";
+  id: number;
+  username: string;
+  avatar?: string | null;
+}
 
 const ScrollBox = styled.div`
   &::-webkit-scrollbar {
@@ -40,6 +53,7 @@ const SearchModal = styled(ScrollBox)`
   background-color: ${(props) => props.theme.bgColor};
   overflow-y: scroll;
   padding: 10px 0;
+  z-index: 1;
   p {
     position: absolute;
     top: 50%;
@@ -85,8 +99,23 @@ const SearchInput = styled.input`
   }
 `;
 
+const Back = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
+
 export default function Search() {
-  const { register, watch, handleSubmit } = useForm();
+  const [searchedUsers, setSearchedUsers] = useState<(SearchedUser | null)[]>(
+    []
+  );
+  const { register, handleSubmit } = useForm<FormData>({
+    mode: "onChange",
+  });
+  const [searchUsers, { loading: searchUsersLoading }] =
+    useSearchUsersLazyQuery();
   const [focuse, setFocuse] = useState(false);
   const handleFocuse = () => {
     setFocuse((prev) => !prev);
@@ -94,27 +123,63 @@ export default function Search() {
   const onValid = () => {};
   return (
     <>
-      <SearchForm onSubmit={handleSubmit(onValid)}>
+      <SearchForm onSubmit={handleSubmit(onValid)} id="search">
         {focuse && (
-          <SearchModal>
-            <p>
-              @ユーザーネーム, #ハッシュタグを利用して
-              ユーザー、ハッシュタグを検索してみてください。
-            </p>
-            {/* {searchedUsers.map((searchedUser: SearchedUser | null) => (
+          <>
+            <SearchModal>
+              {searchedUsers.length === 0 && (
+                <p>
+                  @ユーザーネーム, #ハッシュタグを利用して
+                  ユーザー、ハッシュタグを検索してみてください。
+                </p>
+              )}
+              {searchedUsers.map((searchedUser: SearchedUser | null) => (
+                <SearchUser
+                  key={searchedUser?.id}
+                  {...searchedUser}
+                  onClick={handleFocuse}
+                />
+              ))}
+
+              {/* {searchedUsers.map((searchedUser: SearchedUser | null) => (
           <SearchUser key={searchedUser?.id} {...searchedUser} />
         ))}
         {searchedHashtags.map((searchedHashtag: SearchedHashtag | null) => (
           <SearchHashtag key={searchedHashtag?.id} {...searchedHashtag} />
         ))} */}
-          </SearchModal>
+            </SearchModal>
+            <Back onClick={handleFocuse} />
+          </>
         )}
         <SearchInputContainer>
           <FontAwesomeIcon icon={faSearch} />
           <SearchInput
-            placeholder="検索"
             onFocus={handleFocuse}
-            onBlur={handleFocuse}
+            placeholder="検索"
+            type="text"
+            {...register("keyword", {
+              minLength: 1,
+              maxLength: 30,
+              validate: {
+                searchingUser: async (keyword: string): Promise<boolean> => {
+                  if (keyword.match(/@\w/g) && !searchUsersLoading) {
+                    const replacedUsername: string = keyword.replaceAll(
+                      "@",
+                      ""
+                    );
+                    const { data } = await searchUsers({
+                      variables: { keyword: replacedUsername, offset: 0 },
+                    });
+                    if (data?.searchUsers && data?.searchUsers.length > 0) {
+                      setSearchedUsers(data.searchUsers);
+                    }
+                  } else {
+                    setSearchedUsers([]);
+                  }
+                  return true;
+                },
+              },
+            })}
           />
         </SearchInputContainer>
       </SearchForm>
