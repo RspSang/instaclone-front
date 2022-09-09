@@ -10,7 +10,7 @@ import FormBox from "../components/auth/FormBox";
 import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Input";
 import PageTitle from "../components/PageTitle";
-import { FatLink } from "../components/shared";
+import { FatLink } from "../components/shared/shared";
 import {
   CreateAccountMutation,
   useCreateAccountMutation,

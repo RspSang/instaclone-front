@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faMoon, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -8,8 +8,8 @@ import styled from "styled-components";
 import { isLoggedInVar } from "../../apollo";
 import useUser from "../../hooks/useUser";
 import routes from "../../routes";
-import Avatar from "../auth/Avatar";
 import DarkMode from "../DarkMode";
+import Avatar from "../shared/Avatar";
 import Search from "./Search";
 import Upload from "./Upload";
 
@@ -81,7 +81,7 @@ function Header() {
                 </Icon>
                 <Icon>
                   <Link to={`/users/${data?.me?.username}`}>
-                    <Avatar url={data?.me?.avatar} />
+                    <Avatar avatarUrl={data?.me?.avatar} size="28px" />
                   </Link>
                 </Icon>
                 <Icon>

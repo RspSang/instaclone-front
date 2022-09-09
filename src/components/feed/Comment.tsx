@@ -4,7 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useDeleteCommentMutation } from "../../generated/graphql";
-import { FatText } from "../shared";
+import Username from "../shared/Username";
 
 const CommentContainer = styled.div``;
 const CommentCaption = styled.span`
@@ -63,7 +63,7 @@ function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
   return (
     <CommentContainer>
       <Link to={`/users/${author}`}>
-        <FatText>{author}</FatText>
+        <Username value={author} />
       </Link>
       <CommentCaption>
         {payload?.split(" ").map((word, index) =>

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import PageTitle from "../components/PageTitle";
-import { FatText } from "../components/shared";
+import { FatText } from "../components/shared/shared";
 import {
   useFollowUserMutation,
   useSeeProfileQuery,

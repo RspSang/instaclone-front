@@ -1,9 +1,10 @@
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import Avatar from "../components/shared/Avatar";
 import { useEditProfileMutation } from "../generated/graphql";
 import useUser, { ME_QUERY } from "../hooks/useUser";
 
@@ -34,13 +35,6 @@ const ProfileContainer = styled.div`
   margin-right: 1rem;
   width: 40%;
   text-align: right;
-`;
-
-const ProfileImage = styled.img`
-  width: 45px;
-  height: 45px;
-  border-radius: 23px;
-  border: 1px solid #dbdbdb;
 `;
 
 const ProfileInfo = styled.div`
@@ -209,7 +203,9 @@ export default function EditProfile() {
       <Form>
         <Row>
           <ProfileContainer>
-            {imagePreview ? <ProfileImage src={imagePreview} /> : null}
+            {imagePreview ? (
+              <Avatar avatarUrl={imagePreview} size="40px" />
+            ) : null}
           </ProfileContainer>
           <ProfileInfo>
             <Name>{userData?.me.username}</Name>

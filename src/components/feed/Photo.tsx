@@ -9,9 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useToggleLikeMutation } from "../../generated/graphql";
-import Avatar from "../auth/Avatar";
-import { FatText } from "../shared";
+import { FatText } from "../shared/shared";
+import Avatar from "../shared/Avatar";
 import Comments from "./Comments";
+import Username from "../shared/Username";
 
 const PhotoContainer = styled.div`
   background-color: ${(props) => props.theme.bgColor};
@@ -26,10 +27,6 @@ const PhotoHeader = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgb(239, 239, 239);
-`;
-
-const Username = styled(FatText)`
-  margin-left: 15px;
 `;
 
 const PhotoFile = styled.img`
@@ -117,10 +114,10 @@ function Photo({
     <PhotoContainer key={id}>
       <PhotoHeader>
         <Link to={`/users/${user?.username}`}>
-          <Avatar lg url={user?.avatar} />
+          <Avatar avatarUrl={user?.avatar} size="28px" />
         </Link>
         <Link to={`/users/${user?.username}`}>
-          <Username>{user?.username}</Username>
+          <Username value={user?.username} margin />
         </Link>
       </PhotoHeader>
       <PhotoFile src={file} />
