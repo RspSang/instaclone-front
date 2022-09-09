@@ -57,6 +57,7 @@ export type Hashtag = {
 
 
 export type HashtagPhotosArgs = {
+  offset?: InputMaybe<Scalars['Int']>;
   page: Scalars['Int'];
 };
 
@@ -217,6 +218,7 @@ export type Photo = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  searchHashtags?: Maybe<Array<Maybe<Hashtag>>>;
   searchPhotos?: Maybe<Array<Maybe<Photo>>>;
   searchUsers?: Maybe<Array<Maybe<User>>>;
   seeFeed?: Maybe<Array<Maybe<Photo>>>;
@@ -232,6 +234,12 @@ export type Query = {
 };
 
 
+export type QuerySearchHashtagsArgs = {
+  keyword: Scalars['String'];
+  offset: Scalars['Int'];
+};
+
+
 export type QuerySearchPhotosArgs = {
   keyword: Scalars['String'];
 };
@@ -239,7 +247,7 @@ export type QuerySearchPhotosArgs = {
 
 export type QuerySearchUsersArgs = {
   keyword: Scalars['String'];
-  offset?: InputMaybe<Scalars['Int']>;
+  offset: Scalars['Int'];
 };
 
 
@@ -431,6 +439,14 @@ export type UploadPhotoMutationVariables = Exact<{
 
 
 export type UploadPhotoMutation = { __typename?: 'Mutation', uploadPhoto?: { __typename?: 'Photo', id: number, file: string, likes: number, commentNumber: number, isLiked: boolean, caption?: string | null, createdAt: string, isMine: boolean, user?: { __typename?: 'User', id: number, username: string, avatar?: string | null } | null } | null };
+
+export type SearchHashtagsQueryVariables = Exact<{
+  keyword: Scalars['String'];
+  offset: Scalars['Int'];
+}>;
+
+
+export type SearchHashtagsQuery = { __typename?: 'Query', searchHashtags?: Array<{ __typename?: 'Hashtag', id: number, hashtag: string, totalPhotos: number } | null> | null };
 
 export type SearchUsersQueryVariables = Exact<{
   keyword: Scalars['String'];
@@ -799,6 +815,44 @@ export function useUploadPhotoMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UploadPhotoMutationHookResult = ReturnType<typeof useUploadPhotoMutation>;
 export type UploadPhotoMutationResult = Apollo.MutationResult<UploadPhotoMutation>;
 export type UploadPhotoMutationOptions = Apollo.BaseMutationOptions<UploadPhotoMutation, UploadPhotoMutationVariables>;
+export const SearchHashtagsDocument = gql`
+    query searchHashtags($keyword: String!, $offset: Int!) {
+  searchHashtags(keyword: $keyword, offset: $offset) {
+    id
+    hashtag
+    totalPhotos
+  }
+}
+    `;
+
+/**
+ * __useSearchHashtagsQuery__
+ *
+ * To run a query within a React component, call `useSearchHashtagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchHashtagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchHashtagsQuery({
+ *   variables: {
+ *      keyword: // value for 'keyword'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useSearchHashtagsQuery(baseOptions: Apollo.QueryHookOptions<SearchHashtagsQuery, SearchHashtagsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchHashtagsQuery, SearchHashtagsQueryVariables>(SearchHashtagsDocument, options);
+      }
+export function useSearchHashtagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchHashtagsQuery, SearchHashtagsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchHashtagsQuery, SearchHashtagsQueryVariables>(SearchHashtagsDocument, options);
+        }
+export type SearchHashtagsQueryHookResult = ReturnType<typeof useSearchHashtagsQuery>;
+export type SearchHashtagsLazyQueryHookResult = ReturnType<typeof useSearchHashtagsLazyQuery>;
+export type SearchHashtagsQueryResult = Apollo.QueryResult<SearchHashtagsQuery, SearchHashtagsQueryVariables>;
 export const SearchUsersDocument = gql`
     query SearchUsers($keyword: String!, $offset: Int!) {
   searchUsers(keyword: $keyword, offset: $offset) {

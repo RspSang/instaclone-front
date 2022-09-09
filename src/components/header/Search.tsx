@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useSearchUsersLazyQuery } from "../../generated/graphql";
+import {
+  useSearchHashtagsLazyQuery,
+  useSearchUsersLazyQuery,
+} from "../../generated/graphql";
+import SearchHashtag from "./SearchHashtag";
 import SearchUser from "./SearchUser";
 
 interface FormData {
@@ -15,6 +19,12 @@ interface SearchedUser {
   id: number;
   username: string;
   avatar?: string | null;
+}
+
+interface SearchedHashtag {
+  __typename?: "Hashtag";
+  id: number;
+  hashtag: string;
 }
 
 const ScrollBox = styled.div`
@@ -111,23 +121,29 @@ export default function Search() {
   const [searchedUsers, setSearchedUsers] = useState<(SearchedUser | null)[]>(
     []
   );
+  const [searchedHashtags, setSearchedHashtags] = useState<
+    (SearchedHashtag | null)[]
+  >([]);
   const { register, handleSubmit } = useForm<FormData>({
     mode: "onChange",
   });
   const [searchUsers, { loading: searchUsersLoading }] =
     useSearchUsersLazyQuery();
+  const [searchHashtags, { loading: searchHashtagsLoading }] =
+    useSearchHashtagsLazyQuery();
   const [focuse, setFocuse] = useState(false);
   const handleFocuse = () => {
     setFocuse((prev) => !prev);
   };
   const onValid = () => {};
+
   return (
     <>
       <SearchForm onSubmit={handleSubmit(onValid)} id="search">
         {focuse && (
           <>
             <SearchModal>
-              {searchedUsers.length === 0 && (
+              {searchedUsers.length === 0 && searchedHashtags.length === 0 && (
                 <p>
                   @ユーザーネーム, #ハッシュタグを利用して
                   ユーザー、ハッシュタグを検索してみてください。
@@ -140,13 +156,14 @@ export default function Search() {
                   onClick={handleFocuse}
                 />
               ))}
-
-              {/* {searchedUsers.map((searchedUser: SearchedUser | null) => (
-          <SearchUser key={searchedUser?.id} {...searchedUser} />
-        ))}
-        {searchedHashtags.map((searchedHashtag: SearchedHashtag | null) => (
-          <SearchHashtag key={searchedHashtag?.id} {...searchedHashtag} />
-        ))} */}
+              {searchedHashtags.map(
+                (searchedHashtag: SearchedHashtag | null) => (
+                  <SearchHashtag
+                    key={searchedHashtag?.id}
+                    {...searchedHashtag}
+                  />
+                )
+              )}
             </SearchModal>
             <Back onClick={handleFocuse} />
           </>
@@ -175,6 +192,23 @@ export default function Search() {
                     }
                   } else {
                     setSearchedUsers([]);
+                  }
+                  return true;
+                },
+                searchingHashtag: async (keyword: string): Promise<boolean> => {
+                  if (keyword.match(/#\w/g) && !searchHashtagsLoading) {
+                    const replacedHashtag: string = keyword.replaceAll("#", "");
+                    const { data } = await searchHashtags({
+                      variables: { keyword: "#" + replacedHashtag, offset: 0 },
+                    });
+                    if (
+                      data?.searchHashtags &&
+                      data?.searchHashtags.length > 0
+                    ) {
+                      setSearchedHashtags(data?.searchHashtags);
+                    }
+                  } else {
+                    setSearchedHashtags([]);
                   }
                   return true;
                 },
