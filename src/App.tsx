@@ -12,6 +12,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
 import EditProfile from "./screens/EditProfile";
+import Hashtag from "./screens/Hashtag";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -51,6 +52,14 @@ function App() {
                 element={
                   <Layout>
                     <EditProfile />
+                  </Layout>
+                }
+              />
+              <Route
+                path={`/hashtags/:hashtag`}
+                element={
+                  <Layout>
+                    <Hashtag />
                   </Layout>
                 }
               />
