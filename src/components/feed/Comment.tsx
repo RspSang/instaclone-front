@@ -71,7 +71,7 @@ function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
             word
           ) ? (
             <React.Fragment key={index}>
-              <Link to={`/hashtags/${word}`}>{word}</Link>{" "}
+              <Link to={`/hashtags/${word.replace("#", "")}`}>{word}</Link>{" "}
             </React.Fragment>
           ) : (
             <React.Fragment key={index}>{word} </React.Fragment>
