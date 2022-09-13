@@ -1,15 +1,31 @@
 import styled from "styled-components";
 
 interface UsernameProps {
-  value?: string;
-  margin?: boolean;
+  username?: string | null;
+  size: string;
+  textDecoration?: boolean;
 }
 
-const Text = styled.span<{ margin?: boolean }>`
-  font-weight: 600;
-  margin-left: ${(props) => (props.margin ? "15px" : "0px")};
+const Container = styled.span<{ size: string; textDecoration: boolean }>`
+  font-size: ${(props) => props.size};
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    text-decoration: ${(props) =>
+      props.textDecoration ? "underline" : "none"};
+  }
 `;
 
-export default function Username({ value, margin }: UsernameProps) {
-  return <Text margin={margin}>{value}</Text>;
-}
+const Username = ({
+  username,
+  size,
+  textDecoration = false,
+}: UsernameProps) => {
+  return (
+    <Container size={size} textDecoration={textDecoration}>
+      {username}
+    </Container>
+  );
+};
+
+export default Username;
