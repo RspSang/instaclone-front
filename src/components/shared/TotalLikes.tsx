@@ -152,9 +152,9 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
   let followUsername: string | undefined;
   let unfollowUsername: string | undefined;
   const { data: userData } = useUser();
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const { data: seePhotoLikesData } = useSeePhotoLikesQuery({
-    variables: { id: photoId as number },
+    variables: { photoId: photoId as number },
   });
   const [followUserMutation, { loading: followUserLoading }] =
     useFollowUserMutation({
@@ -245,11 +245,9 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
 
   return (
     <Container>
-      {modalIsOpen === true && (
-        <ModalLikeBackground onClick={handleCloseModal} />
-      )}
+      {modalIsOpen && <ModalLikeBackground onClick={handleCloseModal} />}
       <AnimatePresence>
-        {modalIsOpen === true ? (
+        {modalIsOpen ? (
           <ModalBox
             variants={modalVariants}
             initial="start"
