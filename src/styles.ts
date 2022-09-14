@@ -8,6 +8,10 @@ export const lightTheme: DefaultTheme = {
   borderColor: "rgb(219, 219, 219)",
   buttonFontColor: "#f5f6fa",
   grayColor: "#8F8F8F",
+  activeColor: "#0095F6",
+  inactiveColor: "#B2DFFC",
+  errorColor: "#ed4956",
+  bgContainerColor: "white",
 };
 
 export const darkTheme: DefaultTheme = {
@@ -17,6 +21,10 @@ export const darkTheme: DefaultTheme = {
   bgColor: "#2c2c2c",
   buttonFontColor: "#f5f6fa",
   grayColor: "#8F8F8F",
+  activeColor: "#0095F6",
+  inactiveColor: "#B2DFFC",
+  errorColor: "#ed4956",
+  bgContainerColor: "black",
 };
 
 export const GlobalStyles = createGlobalStyle`

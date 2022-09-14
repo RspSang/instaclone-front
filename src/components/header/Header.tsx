@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { isLoggedInVar } from "../../apollo";
 import useUser from "../../hooks/useUser";
 import routes from "../../routes";
-import DarkMode from "../DarkMode";
+import DarkMode from "../shared/DarkMode";
 import Avatar from "../shared/Avatar";
 import Search from "./Search";
 import Upload from "./Upload";

@@ -14,7 +14,7 @@ import FormBox from "../components/auth/FormBox";
 import FormError from "../components/auth/FormError";
 import Input from "../components/auth/Input";
 import Separator from "../components/auth/Separator";
-import PageTitle from "../components/PageTitle";
+import PageTitle from "../components/shared/PageTitle";
 import { LoginMutation, useLoginMutation } from "../generated/graphql";
 
 import routes from "../routes";

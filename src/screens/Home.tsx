@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
-import Photo from "../components/feed/Photo";
-import PageTitle from "../components/PageTitle";
+import Photo from "../components/photo/Photo";
+import PageTitle from "../components/shared/PageTitle";
 import { useSeeFeedQuery } from "../generated/graphql";
 
 function Home() {

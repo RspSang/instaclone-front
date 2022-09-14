@@ -2,7 +2,7 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import PageTitle from "../components/PageTitle";
+import PageTitle from "../components/shared/PageTitle";
 import { useSeeHashtagQuery } from "../generated/graphql";
 
 const Header = styled.div`

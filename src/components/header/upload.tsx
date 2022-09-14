@@ -8,39 +8,20 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useUploadPhotoMutation } from "../../generated/graphql";
+import Avatar from "../shared/Avatar";
+import Modal from "../shared/Modal";
+import Name from "../shared/Name";
 
 interface UploadProps {
-  username?: string;
-  id?: number;
-  avatar?: string;
+  username?: string | null;
+  id?: number | null;
+  avatar?: string | null;
 }
 
 interface FileDataForm {
   imageFile: FileList;
   caption: string;
 }
-
-const SContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-`;
-
-const Modal = styled.div`
-  position: absolute;
-  width: 40%;
-  height: 40%;
-  background-color: ${(props) => props.theme.bgColor};
-  border-radius: 10px;
-  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
-`;
 
 const Title = styled.div`
   text-align: center;
@@ -76,7 +57,7 @@ const InputLabel = styled.label`
   background-color: ${(props) => props.theme.accent};
   border-radius: 5px;
   border: none;
-  padding: 5px 10px;
+  padding: 7px 14px;
   color: ${(props) => props.theme.buttonFontColor};
   font-weight: 600;
   :hover {
@@ -203,71 +184,69 @@ export default function Upload({ username, avatar }: UploadProps) {
   return (
     <>
       {clicked && (
-        <SContainer onClick={handleClicked}>
-          <Modal onClick={(e) => e.stopPropagation()}>
-            {confirm ? (
-              <>
-                <Title>完了</Title>
-                <Container>
-                  <FontAwesomeIcon icon={faCheckCircle} size="5x" />
-                  <Text>投稿完了</Text>
-                </Container>
-              </>
-            ) : (
-              <>
-                {imagePreview ? (
-                  <>
-                    <ConfirmTitle>
-                      <FontAwesomeIcon
-                        icon={faArrowLeft}
-                        onClick={handleBackClicked}
-                        style={{ cursor: "pointer" }}
-                      />
-                      <span>新規投稿を作成</span>
-                      <Next onClick={handleSubmit(onValid)}>ジェア</Next>
-                    </ConfirmTitle>
-                    <ConfirmContainer>
-                      <ImgContainer>
-                        <PreviewImg src={imagePreview} />
-                      </ImgContainer>
-                      <CaptionContainer>
-                        <Profile>
-                          <ProfileAvatar src={avatar} />
-                          <ProfileName>{username}</ProfileName>
-                        </Profile>
-                        <form>
-                          <CaptionInput
-                            {...register("caption", { required: true })}
-                            type="text"
-                            placeholder="キャプションを入力..."
-                          />
-                        </form>
-                      </CaptionContainer>
-                    </ConfirmContainer>
-                  </>
-                ) : (
-                  <>
-                    <Title>新規投稿を作成</Title>
-                    <form>
-                      <Container>
-                        <FontAwesomeIcon icon={faPhotoFilm} size="5x" />
-                        <InputLabel htmlFor="imageFile">
-                          コンピューターから選択
-                        </InputLabel>
-                        <FileInput
-                          type="file"
-                          accept="image/*"
-                          id="imageFile"
-                          {...register("imageFile", { required: true })}
+        <Modal onClick={handleClicked}>
+          {confirm ? (
+            <>
+              <Title>完了</Title>
+              <Container>
+                <FontAwesomeIcon icon={faCheckCircle} size="5x" />
+                <Text>投稿完了</Text>
+              </Container>
+            </>
+          ) : (
+            <>
+              {imagePreview ? (
+                <>
+                  <ConfirmTitle>
+                    <FontAwesomeIcon
+                      icon={faArrowLeft}
+                      onClick={handleBackClicked}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <span>新規投稿を作成</span>
+                    <Next onClick={handleSubmit(onValid)}>ジェア</Next>
+                  </ConfirmTitle>
+                  <ConfirmContainer>
+                    <ImgContainer>
+                      <PreviewImg src={imagePreview} />
+                    </ImgContainer>
+                    <CaptionContainer>
+                      <Profile>
+                        <Avatar avatarUrl={avatar} size="17px" />
+                        <Name name={username} size="13px" />
+                      </Profile>
+                      <form>
+                        <CaptionInput
+                          {...register("caption", { required: true })}
+                          type="text"
+                          placeholder="キャプションを入力..."
                         />
-                      </Container>
-                    </form>
-                  </>
-                )}
-              </>
-            )}
-          </Modal>
-        </SContainer>
+                      </form>
+                    </CaptionContainer>
+                  </ConfirmContainer>
+                </>
+              ) : (
+                <>
+                  <Title>新規投稿を作成</Title>
+                  <form>
+                    <Container>
+                      <FontAwesomeIcon icon={faPhotoFilm} size="5x" />
+                      <InputLabel htmlFor="imageFile">
+                        コンピューターから選択
+                      </InputLabel>
+                      <FileInput
+                        type="file"
+                        accept="image/*"
+                        id="imageFile"
+                        {...register("imageFile", { required: true })}
+                      />
+                    </Container>
+                  </form>
+                </>
+              )}
+            </>
+          )}
+        </Modal>
       )}
       <FontAwesomeIcon icon={faPlusSquare} size="lg" onClick={handleClicked} />
     </>

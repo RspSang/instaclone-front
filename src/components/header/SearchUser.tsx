@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import Avatar from "../shared/Avatar";
+import Name from "../shared/Name";
 import Username from "../shared/Username";
 
 interface SearchUserProps {
@@ -10,11 +10,6 @@ interface SearchUserProps {
   lastName?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
-
-const Name = styled.span`
-  color: ${(props) => props.theme.grayColor};
-  padding-top: 2px;
-`;
 
 const SearchUser = ({
   username,
@@ -27,10 +22,8 @@ const SearchUser = ({
     <Link to={`/users/${username}`} onClick={onClick}>
       <Avatar size="47px" avatarUrl={avatar} />
       <div>
-        <Username value={username} />
-        <Name>
-          {firstName} {lastName}
-        </Name>
+        <Username size="15px" username={username} />
+        <Name name={firstName + " " + lastName} size={"25px"} />
       </div>
     </Link>
   );

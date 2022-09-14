@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useCreateCommentMutation } from "../../generated/graphql";
 import useUser from "../../hooks/useUser";
 import Comment from "./Comment";
-import { IComment } from "./Photo";
+import { IComment } from "../photo/Photo";
 
 const CommentsContainer = styled.div`
   margin-top: 20px;

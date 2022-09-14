@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import DarkMode from "../DarkMode";
+import DarkMode from "../shared/DarkMode";
 
 const Container = styled.div`
   display: flex;

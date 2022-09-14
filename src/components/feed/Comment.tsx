@@ -63,7 +63,7 @@ function Comment({ id, author, photoId, payload, isMine }: CommentProps) {
   return (
     <CommentContainer>
       <Link to={`/users/${author}`}>
-        <Username value={author} />
+        <Username size="15px" username={author} />
       </Link>
       <CommentCaption>
         {payload?.split(" ").map((word, index) =>
