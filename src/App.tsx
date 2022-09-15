@@ -9,10 +9,10 @@ import { darkTheme, GlobalStyles, lightTheme } from "./styles";
 import SignUp from "./screens/SignUp";
 import routes from "./routes";
 import { HelmetProvider } from "react-helmet-async";
-import Layout from "./components/Layout";
 import Profile from "./screens/Profile";
 import EditProfile from "./screens/EditProfile";
 import Hashtag from "./screens/Hashtag";
+import Layout from "./components/shared/Layout";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -40,13 +40,17 @@ function App() {
                 <Route path={routes.signUp} element={<SignUp />} />
               ) : null}
               <Route
-                path={`/users/:username`}
+                path="users/:username"
                 element={
                   <Layout>
                     <Profile />
                   </Layout>
                 }
-              />
+              >
+                <Route path="photos/:id" element={<Profile />} />
+                <Route path="followers" element={<Profile />} />
+                <Route path="following" element={<Profile />} />
+              </Route>
               <Route
                 path={`/users/:username/edit`}
                 element={
