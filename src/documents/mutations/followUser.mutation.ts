@@ -4,6 +4,13 @@ gql`
   mutation followUser($username: String!) {
     followUser(username: $username) {
       ok
+      error
+      user {
+        id
+        firstName
+        lastName
+        username
+      }
     }
   }
 `;

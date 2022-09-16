@@ -4,11 +4,7 @@ import Picker from "emoji-picker-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Reference } from "@apollo/client";
-import {
-  MeQuery,
-  useCreateCommentMutation,
-  useSeeCommentsLazyQuery,
-} from "../../generated/graphql";
+import { MeQuery, useCreateCommentMutation } from "../../generated/graphql";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import useUser from "../../hooks/useUser";
@@ -77,8 +73,6 @@ const PickerBox = styled.div<{ position: string }>`
 const CommentForm = ({ photoId, position }: CommentFormProps) => {
   const { data: userData } = useUser();
   const [isEmoji, setIsEmoji] = useState(false);
-  const [seeCommentsLazyQuery, { data, loading: seeCommentsLoading }] =
-    useSeeCommentsLazyQuery();
   const {
     register,
     handleSubmit,

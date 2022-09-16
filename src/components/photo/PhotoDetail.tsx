@@ -17,7 +17,7 @@ import Avatar from "../shared/Avatar";
 import Username from "../shared/Username";
 import Name from "../shared/Name";
 import CreatedAt from "../shared/CreatedAt";
-import CommentForm from "./CommentForm";
+import CommentForm from "../comments/CommentForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { ScrollBox } from "../shared/shared";
@@ -663,7 +663,7 @@ const PhotoDetail = ({
                 </ModalMainInfoCenter>
                 <ModalMainInfoBottom>
                   <PhotoIcons id={id} isLiked={isLiked} />
-                  <TotalLikes photoId={id} totalLikes={likes} />
+                  <TotalLikes photoId={id} likes={likes} />
                   <CreatedAt createdAt={createdAt} />
                   <CommentForm
                     photoId={id}

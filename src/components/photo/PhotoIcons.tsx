@@ -9,10 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { keyframes } from "styled-components";
 import { useRef } from "react";
 import { SEE_PHOTO_LIKES } from "../../documents/queries/seePhotoLikes.query";
-import {
-  useSeePhotoLikesLazyQuery,
-  useToggleLikeMutation,
-} from "../../generated/graphql";
+import { useToggleLikeMutation } from "../../generated/graphql";
 
 interface PhotoIconsProps {
   id?: number;
@@ -76,8 +73,6 @@ export default function PhotoIcons({
   handleSeePhotoDetail,
 }: PhotoIconsProps) {
   const likeButton = useRef<HTMLSpanElement>(null);
-  const [seePhotoLikesLazyQuery, { loading: seePhotoLikesLoading }] =
-    useSeePhotoLikesLazyQuery();
   const [toggleLikePhotoMutation, { loading: toggleLikePhotoLoading }] =
     useToggleLikeMutation({
       update(cache, { data }) {
@@ -96,7 +91,7 @@ export default function PhotoIcons({
       refetchQueries: [{ query: SEE_PHOTO_LIKES, variables: { photoId: id } }],
     });
   const handleToggleLikePhoto = (isLiked: boolean | undefined) => {
-    if (toggleLikePhotoLoading || seePhotoLikesLoading) {
+    if (toggleLikePhotoLoading) {
       return;
     }
     if (likeButton.current) {
