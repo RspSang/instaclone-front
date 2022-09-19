@@ -22,8 +22,8 @@ const SearchUser = ({
     <Link to={`/users/${username}`} onClick={onClick}>
       <Avatar size="47px" avatarUrl={avatar} />
       <div>
-        <Username size="15px" username={username} />
-        <Name name={firstName + " " + lastName} size={"25px"} />
+        <Username size="14px" username={username} />
+        <Name name={firstName + " " + lastName} size={"14px"} />
       </div>
     </Link>
   );

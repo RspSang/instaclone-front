@@ -21,6 +21,8 @@ const SHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  z-index: 1;
 `;
 
 const Wrapper = styled.div`

@@ -20,8 +20,10 @@ const Container = styled.div`
 
 const Card = styled.div`
   position: absolute;
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 60%;
+  max-width: 1120px;
+  max-height: 900px;
   background-color: ${(props) => props.theme.bgColor};
   border-radius: 10px;
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
