@@ -12,5 +12,6 @@ declare module "styled-components" {
     inactiveColor: string;
     errorColor: string;
     bgContainerColor:string;
+    hashtagColor:string;
   }
 }

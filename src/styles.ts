@@ -2,29 +2,31 @@ import { createGlobalStyle, DefaultTheme } from "styled-components";
 import reset from "styled-reset";
 
 export const lightTheme: DefaultTheme = {
-  accent: "#0095f6",
+  accent: "#0095F6",
   bgColor: "#FAFAFA",
-  fontColor: "rgb(38, 38, 38)",
-  borderColor: "rgb(219, 219, 219)",
-  buttonFontColor: "#f5f6fa",
+  fontColor: "#262626",
+  borderColor: "#DBDBDB",
+  buttonFontColor: "#F5F6FA",
   grayColor: "#8F8F8F",
   activeColor: "#0095F6",
   inactiveColor: "#B2DFFC",
-  errorColor: "#ed4956",
+  errorColor: "#ED4956",
   bgContainerColor: "white",
+  hashtagColor: "#00376B",
 };
 
 export const darkTheme: DefaultTheme = {
   accent: "#273c75",
-  borderColor: "rgb(219,219,219)",
+  borderColor: "#3C3C3C",
   fontColor: "white",
-  bgColor: "#2c2c2c",
-  buttonFontColor: "#f5f6fa",
+  bgColor: "#1E1E2C",
+  buttonFontColor: "#F5F6FA",
   grayColor: "#8F8F8F",
   activeColor: "#0095F6",
   inactiveColor: "#B2DFFC",
-  errorColor: "#ed4956",
-  bgContainerColor: "black",
+  errorColor: "#ED4956",
+  bgContainerColor: "#0F3460",
+  hashtagColor: "#2D2D44",
 };
 
 export const GlobalStyles = createGlobalStyle`
