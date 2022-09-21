@@ -18,7 +18,7 @@ import {
 
 interface TotalLikesProps {
   photoId?: number;
-  totalLikes?: number;
+  likes?: number;
 }
 
 const modalVariants: Variants = {
@@ -148,7 +148,7 @@ const FollowButton = styled(Button)<{ isFollowing: boolean | undefined }>`
       props.isFollowing === true ? props.theme.borderColor : "transparent"};
 `;
 
-export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
+export default function TotalLikes({ photoId, likes }: TotalLikesProps) {
   let followUsername: string | undefined;
   let unfollowUsername: string | undefined;
   const { data: userData } = useUser();
@@ -182,11 +182,11 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
       refetchQueries: [
         {
           query: SEE_FOLLOWERS,
-          variables: { username: followUsername, page: 0 },
+          variables: { username: followUsername as string, page: 1 },
         },
         {
           query: SEE_FOLLOWING,
-          variables: { username: userData?.me?.username, page: 0 },
+          variables: { username: userData?.me?.username as string, page: 1 },
         },
       ],
     });
@@ -214,10 +214,13 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
         }
       },
       refetchQueries: [
-        { query: SEE_FOLLOWERS, variables: { username: unfollowUsername } },
+        {
+          query: SEE_FOLLOWERS,
+          variables: { username: unfollowUsername as string, page: 1 },
+        },
         {
           query: SEE_FOLLOWING,
-          variables: { username: userData?.me?.username },
+          variables: { username: userData?.me?.username as string, page: 1 },
         },
       ],
     });
@@ -300,7 +303,7 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
           </ModalBox>
         ) : null}
       </AnimatePresence>
-      {totalLikes && totalLikes >= 2 ? (
+      {likes && likes >= 2 ? (
         <LikesUser>
           <div onClick={handleSeePhotoLikes}>
             <Avatar
@@ -329,14 +332,14 @@ export default function TotalLikes({ photoId, totalLikes }: TotalLikesProps) {
           <LikesOtherUsers>
             님{" "}
             <span onClick={handleSeePhotoLikes}>
-              외 {(totalLikes - 1).toLocaleString("ko-KR")}명
+              외 {(likes - 1).toLocaleString("ko-KR")}명
             </span>
             이 좋아합니다.
           </LikesOtherUsers>
         </LikesUser>
       ) : (
         <LikesText onClick={handleSeePhotoLikes}>
-          좋아요 {totalLikes?.toLocaleString("ko-KR")}개
+          좋아요 {likes?.toLocaleString("ko-KR")}개
         </LikesText>
       )}
     </Container>
