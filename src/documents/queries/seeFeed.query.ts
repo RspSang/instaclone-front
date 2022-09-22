@@ -3,21 +3,6 @@ import { gql } from "@apollo/client";
 gql`
   query seeFeed($offset: Int!) {
     seeFeed(offset: $offset) {
-      user {
-        id
-        username
-        avatar
-      }
-      comments {
-        id
-        user {
-          username
-          avatar
-        }
-        payload
-        isMine
-        createdAt
-      }
       caption
       createdAt
       isMine
@@ -26,6 +11,28 @@ gql`
       likes
       commentNumber
       isLiked
+      user {
+        id
+        firstName
+        lastName
+        username
+        avatar
+      }
+      hashtags {
+        id
+        hashtag
+      }
+      comments {
+        id
+        payload
+        isMine
+        createdAt
+        user {
+          id
+          username
+          avatar
+        }
+      }
     }
   }
 `;

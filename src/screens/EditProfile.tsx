@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Avatar from "../components/shared/Avatar";
+import { ME } from "../documents/queries/me.query";
 import { useEditProfileMutation } from "../generated/graphql";
-import useUser, { ME_QUERY } from "../hooks/useUser";
+import useUser from "../hooks/useUser";
 
 interface FormData {
   avatar?: FileList;
@@ -113,7 +114,7 @@ export default function EditProfile() {
   const { data: userData } = useUser();
 
   const [editProfile, { data, loading }] = useEditProfileMutation({
-    refetchQueries: [{ query: ME_QUERY }],
+    refetchQueries: [{ query: ME }],
   });
   const {
     register,
@@ -172,13 +173,13 @@ export default function EditProfile() {
   }, [data, setError]);
 
   useEffect(() => {
-    if (userData) {
-      setImagePreview(userData.me.avatar);
+    if (userData?.me) {
+      setImagePreview(userData.me.avatar || "");
       setValue("firstName", userData.me.firstName);
-      setValue("lastName", userData.me.lastName);
+      setValue("lastName", userData.me.lastName || "");
       setValue("username", userData.me.username);
       setValue("email", userData.me.email);
-      setValue("bio", userData.me.bio);
+      setValue("bio", userData.me.bio || "");
     }
   }, [userData, setValue]);
 
@@ -208,7 +209,7 @@ export default function EditProfile() {
             ) : null}
           </ProfileContainer>
           <ProfileInfo>
-            <Name>{userData?.me.username}</Name>
+            <Name>{userData?.me?.username}</Name>
             <Edit htmlFor="image">プロフィール写真を変更</Edit>
             <FileInput
               id="image"

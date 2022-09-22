@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useUploadPhotoMutation } from "../../generated/graphql";
 import Avatar from "../shared/Avatar";
+import Loading from "../shared/Loading";
 import Modal from "../shared/Modal";
 import Name from "../shared/Name";
 
@@ -36,6 +37,7 @@ const ConfirmTitle = styled(Title)`
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
+  height: 6%;
 `;
 
 const Next = styled.span`
@@ -49,7 +51,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20%;
+  padding: 10rem 0;
 `;
 
 const InputLabel = styled.label`
@@ -71,23 +73,25 @@ const FileInput = styled.input`
 `;
 
 const ImgContainer = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 70%;
+  height: 100%;
   overflow: hidden;
 `;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 const ConfirmContainer = styled.div`
   display: flex;
+  height: 94%;
 `;
 
 const CaptionContainer = styled.div`
   border-left: 1px solid #888;
+  width: 30%;
 `;
 
 const Profile = styled.div`
@@ -96,19 +100,16 @@ const Profile = styled.div`
   align-items: center;
 `;
 
-const CaptionInput = styled.input`
+const CaptionInput = styled.textarea`
   padding: 10px 20px;
-`;
-
-const ProfileAvatar = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-`;
-
-const ProfileName = styled.span`
-  margin-left: 10px;
-  font-weight: 600;
+  margin-top: 10px;
+  resize: none;
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 160px;
+  font-size: 15px;
+  line-height: 1.5;
 `;
 
 const Text = styled.span`
@@ -147,6 +148,8 @@ export default function Upload({ username, avatar }: UploadProps) {
   const handleClicked = () => {
     setClicked((prev) => !prev);
     setImagePreview("");
+    setValue("caption", "");
+    setConfirm(false);
   };
 
   const handleBackClicked = () => {
@@ -204,7 +207,9 @@ export default function Upload({ username, avatar }: UploadProps) {
                       style={{ cursor: "pointer" }}
                     />
                     <span>新規投稿を作成</span>
-                    <Next onClick={handleSubmit(onValid)}>ジェア</Next>
+                    <Next onClick={handleSubmit(onValid)}>
+                      {loading ? <Loading size="14px" /> : "ジェア"}
+                    </Next>
                   </ConfirmTitle>
                   <ConfirmContainer>
                     <ImgContainer>
@@ -217,9 +222,15 @@ export default function Upload({ username, avatar }: UploadProps) {
                       </Profile>
                       <form>
                         <CaptionInput
-                          {...register("caption", { required: true })}
-                          type="text"
+                          {...register("caption", {
+                            required: true,
+                            minLength: 1,
+                            maxLength: 100,
+                          })}
                           placeholder="キャプションを入力..."
+                          minLength={1}
+                          maxLength={100}
+                          cols={100}
                         />
                       </form>
                     </CaptionContainer>
@@ -248,7 +259,12 @@ export default function Upload({ username, avatar }: UploadProps) {
           )}
         </Modal>
       )}
-      <FontAwesomeIcon icon={faPlusSquare} size="lg" onClick={handleClicked} />
+      <FontAwesomeIcon
+        icon={faPlusSquare}
+        size="lg"
+        onClick={handleClicked}
+        style={{ cursor: "pointer" }}
+      />
     </>
   );
 }

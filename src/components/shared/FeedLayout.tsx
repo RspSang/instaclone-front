@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../header/Header";
 
-interface MainLayoutProps {
+interface FeedLayoutProps {
   children: React.ReactNode;
 }
 
@@ -17,7 +17,7 @@ const Content = styled.div`
   flex-direction: column;
 `;
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const FeedLayout = ({ children }: FeedLayoutProps) => {
   return (
     <Wrapper>
       <Header />
@@ -28,4 +28,4 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   );
 };
 
-export default MainLayout;
+export default FeedLayout;
