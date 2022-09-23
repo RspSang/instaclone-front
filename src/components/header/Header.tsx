@@ -1,11 +1,11 @@
 import { useReactiveVar } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { isLoggedInVar } from "../../apollo";
+import { isLoggedInVar, logUserOut } from "../../apollo";
 import useUser from "../../hooks/useUser";
 import routes from "../../routes";
 import DarkMode from "../shared/DarkMode";
@@ -87,12 +87,20 @@ function Header() {
                   </Link>
                 </Icon>
                 <Icon>
+                  <FontAwesomeIcon
+                    icon={faRightFromBracket}
+                    onClick={() => logUserOut()}
+                    size="lg"
+                    style={{ cursor: "pointer" }}
+                  />
+                </Icon>
+                <Icon>
                   <DarkMode />
                 </Icon>
               </IconsContainer>
             </>
           ) : (
-            <Link to={routes.home}>
+            <Link to={routes.login}>
               <Button>Login</Button>
             </Link>
           )}

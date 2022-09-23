@@ -4,7 +4,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { logUserIn } from "../apollo";
 import AuthLayout from "../components/auth/AuthLayout";
@@ -45,6 +45,7 @@ interface LoginState {
 
 function Login() {
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as LoginState | null;
   const {
     register,
@@ -67,6 +68,7 @@ function Login() {
       }
       if (token) {
         logUserIn(token);
+        navigate("/");
       }
     }
   };
