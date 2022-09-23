@@ -57,24 +57,24 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            소개
+            
           </a>
           <a
             href="https://about.instagram.com/blog"
             target="_blank"
             rel="noreferrer"
           >
-            블로그
+            ブログ
           </a>
           <a
             href="https://about.instagram.com/about-us/careers"
             target="_blank"
             rel="noreferrer"
           >
-            채용 정보
+            求人
           </a>
           <a href="https://help.instagram.com" target="_blank" rel="noreferrer">
-            도움말
+            ヘルプ
           </a>
           <a
             href="https://developers.facebook.com/docs/instagram"
@@ -88,35 +88,35 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer"
           >
-            개인정보처리방침
+            プライバシー
           </a>
           <a
             href="https://help.instagram.com/581066165581870"
             target="_blank"
             rel="noreferrer"
           >
-            약관
+            利用規約
           </a>
           <a
             href="https://www.instagram.com/directory/profiles"
             target="_blank"
             rel="noreferrer"
           >
-            인기 계정
+            人気アカウント
           </a>
           <a
             href="https://www.instagram.com/directory/hashtags"
             target="_blank"
             rel="noreferrer"
           >
-            해시태그
+            ハッシュタグ
           </a>
           <a
             href="https://www.instagram.com/explore/locations"
             target="_blank"
             rel="noreferrer"
           >
-            위치
+            所在地
           </a>
           <a
             href="https://www.instagram.com/web/lite"
@@ -127,7 +127,7 @@ export default function Footer() {
           </a>
         </Nav>
         <Info>
-          <span>한국어</span>
+          <span>日本語</span>
           <span>© {new Date().getFullYear()} Instagram from Meta</span>
         </Info>
       </Content>

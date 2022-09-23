@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 const SSeparator = styled.div`
   margin: 20px 0px 30px 0px;
-  text-transform: uppercase;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -17,6 +16,7 @@ const SSeparator = styled.div`
     font-weight: 600;
     font-size: 12px;
     color: #8e8e8e;
+    width: 100px;
   }
 `;
 
@@ -24,7 +24,7 @@ function Separator() {
   return (
     <SSeparator>
       <div></div>
-      <span>Or</span>
+      <span>または</span>
       <div></div>
     </SSeparator>
   );

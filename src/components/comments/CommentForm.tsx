@@ -168,7 +168,7 @@ const CommentForm = ({ photoId, position }: CommentFormProps) => {
         type="text"
         minLength={1}
         maxLength={70}
-        placeholder="コメントを追加"
+        placeholder="コメントを追加..."
       />
       <Button onClick={handleSubmit(onValid)} type="submit" disabled={!isValid}>
         게시

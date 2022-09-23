@@ -559,7 +559,7 @@ const PhotoDetail = ({
                                   maxLength: 100,
                                 })}
                                 type="text"
-                                placeholder="사진 문구 입력..."
+                                placeholder="キャップションを入力"
                                 required
                                 maxLength={100}
                               />

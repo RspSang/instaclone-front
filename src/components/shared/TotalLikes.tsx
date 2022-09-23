@@ -258,7 +258,7 @@ export default function TotalLikes({ photoId, likes }: TotalLikesProps) {
             exit="exit"
           >
             <ModalHeader>
-              <h1>좋아요</h1>
+              <h1>いいね！</h1>
               <button onClick={handleCloseModal}>✕</button>
             </ModalHeader>
             <ModalMain>
@@ -291,9 +291,9 @@ export default function TotalLikes({ photoId, likes }: TotalLikesProps) {
                         {followUserLoading === true ? (
                           <Loading size="12px" />
                         ) : user?.isFollowing === true ? (
-                          "팔로잉"
+                          "フォロー中"
                         ) : (
-                          "팔로우"
+                          "フォローする"
                         )}
                       </FollowButton>
                     )}
@@ -330,16 +330,15 @@ export default function TotalLikes({ photoId, likes }: TotalLikesProps) {
             />
           </Link>
           <LikesOtherUsers>
-            님{" "}
             <span onClick={handleSeePhotoLikes}>
-              외 {(likes - 1).toLocaleString("ko-KR")}명
+              他 {(likes - 1).toLocaleString("ja-JP")}人
             </span>
-            이 좋아합니다.
+            「いいね！」しました
           </LikesOtherUsers>
         </LikesUser>
       ) : (
         <LikesText onClick={handleSeePhotoLikes}>
-          좋아요 {likes?.toLocaleString("ko-KR")}개
+          いいね！ {likes?.toLocaleString("ja-JP")}件
         </LikesText>
       )}
     </Container>

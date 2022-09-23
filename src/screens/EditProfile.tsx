@@ -223,7 +223,7 @@ export default function EditProfile() {
           <Label>苗字</Label>
           <Input
             {...register("firstName", {
-              required: "苗字を必ず入力してください。",
+              required: "苗字は必須です。",
             })}
             onChange={onChange}
           />
@@ -236,7 +236,7 @@ export default function EditProfile() {
           <Label>ユーザーネーム</Label>
           <Input
             {...register("username", {
-              required: "ユーザーネームを必ず入力してください。",
+              required: "ユーザーネームは必須です。",
             })}
             onChange={onChange}
           />
@@ -245,7 +245,7 @@ export default function EditProfile() {
           <Label>Eメール</Label>
           <Input
             {...register("email", {
-              required: "Eメールを必ず入力してください。",
+              required: "メールアドレスは必須です。",
             })}
             onChange={onChange}
           />

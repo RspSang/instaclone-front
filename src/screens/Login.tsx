@@ -93,27 +93,27 @@ function Login() {
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
             {...register("username", {
-              required: "Username is required",
+              required: "ユーザーネームは必須です。",
               minLength: {
                 value: 5,
-                message: "Username should be longer than 5 chars.",
+                message: "ユーザーネームは5文字以上必要です。",
               },
             })}
             onFocus={clearError}
             type="text"
-            placeholder="Username"
+            placeholder="ユーザーネーム"
           />
           <FormError message={errors?.username?.message} />
           <Input
-            {...register("password", { required: "Password is required." })}
+            {...register("password", { required: "パスワードは必須です。" })}
             onFocus={clearError}
             type="password"
-            placeholder="Password"
+            placeholder="パスワード"
           />
           <FormError message={errors?.password?.message} />
           <Button
             type="submit"
-            value={loading ? "Loading..." : "Log in"}
+            value={loading ? "ロード中" : "登録する"}
             disabled={!isValid || loading}
           />
           <FormError message={errors?.result?.message} />
@@ -121,13 +121,13 @@ function Login() {
         <Separator />
         <FacebookLogin>
           <FontAwesomeIcon icon={faFacebookSquare} />
-          <span>Log in with Facebook</span>
+          <span>Facebookでログイン</span>
         </FacebookLogin>
       </FormBox>
       <BottomBox
-        cta="Don't have an account?"
-        linkText="Sign up"
-        link={routes.signUp}
+        cta="アカウントをお持ちでないですか？"
+        linkText="登録する"
+        link={routes.signup}
       />
     </AuthLayout>
   );

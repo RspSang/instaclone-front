@@ -250,7 +250,7 @@ const Home = () => {
   return (
     <FeedLayout>
       <Container>
-        <PageTitle title="홈" />
+        <PageTitle title="Instagram" />
         <LeftContainer>
           {seeFollowingData?.seeFollowing.following === null ||
           seeFollowingData?.seeFollowing.following?.length === 0 ? null : (
@@ -294,9 +294,9 @@ const Home = () => {
             </AsideHeader>
             <AsideMain>
               <AsideMainHeader>
-                <h1>회원님을 위한 추천</h1>
+                <h1>おすすめ</h1>
                 <Link to="/">
-                  <span>모두 보기</span>
+                  <span>すべて見る</span>
                 </Link>
               </AsideMainHeader>
               <AsideMainInner>
@@ -321,7 +321,7 @@ const Home = () => {
                       isFollowing={user?.isFollowing || false}
                       type="button"
                     >
-                      {user?.isFollowing === true ? "팔로잉" : "팔로우"}
+                      {user?.isFollowing === true ? "フォロー中" : "フォローする"}
                     </FollowButton>
                   </RecommandContent>
                 ))}

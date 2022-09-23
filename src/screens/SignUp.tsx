@@ -60,7 +60,7 @@ function SignUp() {
       }
       navigate(routes.home, {
         state: {
-          message: "Account created. Please log in.",
+          message: "アカウント生成に成功しました。ログインして下さい。",
           username,
           password,
         },
@@ -90,58 +90,58 @@ function SignUp() {
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
             {...register("firstName", {
-              required: "First Name is required",
+              required: "苗字は必須です。",
             })}
             onFocus={clearError}
             type="text"
-            placeholder="First Name"
+            placeholder="苗字"
           />
           <FormError message={errors.firstName?.message} />
           <Input
             {...register("lastName")}
             type="text"
-            placeholder="Last Name"
+            placeholder="名前"
           />
           <Input
             {...register("email", {
-              required: "Email is required",
+              required: "メールアドレスは必須です。",
               pattern: {
                 value:
                   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/gi,
-                message: "Only allow email",
+                message: " メールメール形式のみ有効です。",
               },
             })}
             type="text"
-            placeholder="Email"
+            placeholder="メールメール"
           />
           <FormError message={errors.email?.message} />
           <Input
             {...register("username", {
-              required: "Username is required",
+              required: "ユーザーネームは必須です。",
               minLength: {
                 value: 5,
-                message: "Username should be longer than 5 chars.",
+                message: "ユーザーネームは5文字以上必要です。",
               },
             })}
             type="text"
-            placeholder="Username"
+            placeholder="ユーザーネーム"
           />
           <FormError message={errors.username?.message} />
           <Input
-            {...register("password", { required: "Password is required." })}
+            {...register("password", { required: "パスワードは必須です。" })}
             type="password"
-            placeholder="Password"
+            placeholder="パスワード"
           />
           <FormError message={errors.password?.message} />
           <Button
             type="submit"
-            value={loading ? "Loading..." : "Sign up"}
+            value={loading ? "ロード中" : "登録する"}
             disabled={!isValid || loading}
           />
           <FormError message={errors.result?.message} />
         </form>
       </FormBox>
-      <BottomBox cta="Have an account?" linkText="Log in" link={routes.home} />
+      <BottomBox cta="アカウントをお持ちですか？" linkText="ログインする" link={routes.home} />
     </AuthLayout>
   );
 }

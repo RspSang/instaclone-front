@@ -37,7 +37,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              소개
+              基本データ
             </a>
           </li>
           <span>∙</span>
@@ -47,7 +47,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              도움말
+              ヘルプ
             </a>
           </li>
           <span>∙</span>
@@ -57,7 +57,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              홍보 센터
+              ブログ
             </a>
           </li>
           <span>∙</span>
@@ -77,7 +77,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              채용 정보
+              求人
             </a>
           </li>
           <span>∙</span>
@@ -87,7 +87,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              개인정보처리방침
+              プライバシー
             </a>
           </li>
           <span>∙</span>
@@ -97,7 +97,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              약관
+              利用規約
             </a>
           </li>
           <span>∙</span>
@@ -107,7 +107,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              위치
+              所在地
             </a>
           </li>
           <span>∙</span>
@@ -117,7 +117,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              인기 계정
+              人気アカウント
             </a>
           </li>
           <span>∙</span>
@@ -127,7 +127,7 @@ export default function Info() {
               target="_blank"
               rel="noreferrer"
             >
-              해시태그
+              ハッシュタグ
             </a>
           </li>
         </ul>

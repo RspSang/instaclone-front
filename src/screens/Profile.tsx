@@ -432,7 +432,7 @@ export default function Profile() {
             exit="exit"
           >
             <ModalHeader>
-              <h1>{followersPathMath ? "팔로워" : "팔로잉"}</h1>
+              <h1>{followersPathMath ? "フォロワー" : "フォローする"}</h1>
               <button onClick={handleCloseModal}>✕</button>
             </ModalHeader>
             <ModalMain>
@@ -469,9 +469,9 @@ export default function Profile() {
                           follower?.username ? (
                           <Loading size="12px" />
                         ) : follower?.isFollowing === true ? (
-                          "팔로잉"
+                          "フォローする"
                         ) : (
-                          "팔로우"
+                          "フォロー"
                         )}
                       </FollowButton>
                     )}
@@ -513,9 +513,9 @@ export default function Profile() {
                           following?.username ? (
                           <Loading size="12px" />
                         ) : following?.isFollowing === true ? (
-                          "팔로잉"
+                          "フォローする"
                         ) : (
-                          "팔로우"
+                          "フォロー"
                         )}
                       </FollowButton>
                     )}
@@ -528,8 +528,8 @@ export default function Profile() {
       <PageTitle
         title={
           seeProfileLoading === true
-            ? "로딩중"
-            : username || "페이지를 찾을 수 없습니다."
+            ? "ロード中"
+            : username || "ページが見つかりません"
         }
       />
       {!seeProfileLoading ? (
@@ -546,7 +546,7 @@ export default function Profile() {
                 <span>{seeProfileData?.seeProfile?.username}</span>
                 {seeProfileData?.seeProfile?.isMe === true && (
                   <Link to={`/users/${userData?.me?.username}/edit`}>
-                    프로필 편집
+                    プロフィールを編集
                   </Link>
                 )}
                 {seeProfileData?.seeProfile?.isMe === false &&
@@ -557,7 +557,7 @@ export default function Profile() {
                         username ? (
                         <Loading size="12px" />
                       ) : (
-                        "팔로우 취소"
+                        "フォローをやめる"
                       )}
                     </Button>
                   )}
@@ -569,22 +569,22 @@ export default function Profile() {
                         username ? (
                         <Loading size="12px" />
                       ) : (
-                        "팔로우"
+                        "フォロー"
                       )}
                     </Button>
                   )}
               </ProfileUser>
               <ProfilePost>
                 <span>
-                  게시물{" "}
+                  投稿{" "}
                   <strong>{seeProfileData?.seeProfile?.totalPhotos}</strong>
                 </span>
                 <span onClick={handleSeeFollowers}>
-                  팔로워{" "}
+                  フォロワー{" "}
                   <strong>{seeProfileData?.seeProfile?.totalFollowers}</strong>
                 </span>
                 <span onClick={handleSeeFollowing}>
-                  팔로우{" "}
+                  フォロー{" "}
                   <strong>{seeProfileData?.seeProfile?.totalFollowing}</strong>
                 </span>
               </ProfilePost>

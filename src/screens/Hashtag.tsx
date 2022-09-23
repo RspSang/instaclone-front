@@ -83,7 +83,7 @@ export default function Hashtag() {
   return (
     <div>
       <PageTitle
-        title={loading ? "loading..." : `${data?.seeHashtag?.hashtag}`}
+        title={loading ? "ロード中" : `${data?.seeHashtag?.hashtag}`}
       />
       <Header>
         <Avatar

@@ -168,14 +168,14 @@ const CommentContent = ({
           <Form onSubmit={handleSubmit(onValid)}>
             <Input
               {...register("payload", {
-                required: "댓글을 입력해주세요.",
+                required: "コメントを入力して下さい。",
                 minLength: 1,
                 maxLength: 70,
               })}
               minLength={1}
               maxLength={70}
               type="text"
-              placeholder="댓글을 입력해주세요."
+              placeholder="コメントを追加..."
             />
             <EditingCommentButton disabled={!isValid} type="submit">
               수정

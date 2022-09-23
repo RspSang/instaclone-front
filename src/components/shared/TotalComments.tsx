@@ -21,7 +21,7 @@ const TotalComments = ({
 }: TotalCommentsProps) => {
   return (
     <Container onClick={handleOpenPhotoDetail}>
-      댓글 {commentNumber?.toLocaleString("ko-KR")}개 모두 보기
+      コメント {commentNumber?.toLocaleString("ja-JP")}件をすべて見る
     </Container>
   );
 };

@@ -25,12 +25,12 @@ const Container = styled.div`
 const NotFound = () => {
   return (
     <MainLayout>
-      <PageTitle title="페이지를 찾을 수 없습니다" />
+      <PageTitle title="ページが見つかりません" />
       <Container>
-        <h1>죄송합니다. 페이지를 사용할 수 없습니다.</h1>
+        <h1>このページはご利用いただけません。</h1>
         <p>
-          클릭하신 링크가 잘못되었거나 페이지가 삭제되었습니다.{" "}
-          <Link to="/">Instagram으로 돌아가기.</Link>
+          リンクに問題があるか、ページが削除された可能性があります。{" "}
+          <Link to="/">Instagramに戻る</Link>
         </p>
       </Container>
       <Footer />
