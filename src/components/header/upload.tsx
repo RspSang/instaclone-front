@@ -139,6 +139,7 @@ export default function Upload({ username, avatar }: UploadProps) {
             seeFeed(prev) {
               return [uploadPhoto, ...prev];
             },
+            seeProfile(prev) {},
           },
         });
       }

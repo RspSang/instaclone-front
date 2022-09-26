@@ -171,7 +171,7 @@ const CommentForm = ({ photoId, position }: CommentFormProps) => {
         placeholder="コメントを追加..."
       />
       <Button onClick={handleSubmit(onValid)} type="submit" disabled={!isValid}>
-        게시
+        投稿する
       </Button>
     </Form>
   );

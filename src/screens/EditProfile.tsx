@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Avatar from "../components/shared/Avatar";
+import MainLayout from "../components/shared/MainLayout";
 import { ME } from "../documents/queries/me.query";
 import { useEditProfileMutation } from "../generated/graphql";
 import useUser from "../hooks/useUser";
@@ -24,6 +25,7 @@ interface FormData {
 const Container = styled.div`
   background-color: ${(props) => props.theme.bgColor};
   margin: auto;
+  margin-top: 128px;
   width: 70%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   border-radius: 5px;
@@ -184,88 +186,93 @@ export default function EditProfile() {
   }, [userData, setValue]);
 
   return (
-    <Container>
-      <Alert show={show} errors={Boolean(Object.keys(errors).length)}>
-        {data?.editProfile.ok ? (
-          <>
-            <FontAwesomeIcon
-              icon={faCircleCheck}
-              style={{ marginRight: "10px" }}
+    <MainLayout>
+      <Container>
+        <Alert show={show} errors={Boolean(Object.keys(errors).length)}>
+          {data?.editProfile.ok ? (
+            <>
+              <FontAwesomeIcon
+                icon={faCircleCheck}
+                style={{ marginRight: "10px" }}
+              />
+              <span>プロフィールの更新が完了しました</span>
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faWarning}
+                style={{ marginRight: "10px" }}
+              />
+              <span>{errors.result?.message}</span>
+            </>
+          )}
+        </Alert>
+        <Form>
+          <Row>
+            <ProfileContainer>
+              {imagePreview ? (
+                <Avatar avatarUrl={imagePreview} size="48px" />
+              ) : null}
+            </ProfileContainer>
+            <ProfileInfo>
+              <Name>{userData?.me?.username}</Name>
+              <Edit htmlFor="image">プロフィール写真を変更</Edit>
+              <FileInput
+                id="image"
+                type="file"
+                accept="image/*"
+                {...register("avatar")}
+              />
+            </ProfileInfo>
+          </Row>
+          <Row>
+            <Label>苗字</Label>
+            <Input
+              {...register("firstName", {
+                required: "苗字は必須です。",
+              })}
+              onChange={onChange}
             />
-            <span>プロフィールの更新が完了しました</span>
-          </>
-        ) : (
-          <>
-            <FontAwesomeIcon icon={faWarning} style={{ marginRight: "10px" }} />
-            <span>{errors.result?.message}</span>
-          </>
-        )}
-      </Alert>
-      <Form>
-        <Row>
-          <ProfileContainer>
-            {imagePreview ? (
-              <Avatar avatarUrl={imagePreview} size="40px" />
-            ) : null}
-          </ProfileContainer>
-          <ProfileInfo>
-            <Name>{userData?.me?.username}</Name>
-            <Edit htmlFor="image">プロフィール写真を変更</Edit>
-            <FileInput
-              id="image"
-              type="file"
-              accept="image/*"
-              {...register("avatar")}
+          </Row>
+          <Row>
+            <Label>名前</Label>
+            <Input {...register("lastName")} />
+          </Row>
+          <Row>
+            <Label>ユーザーネーム</Label>
+            <Input
+              {...register("username", {
+                required: "ユーザーネームは必須です。",
+              })}
+              onChange={onChange}
             />
-          </ProfileInfo>
-        </Row>
-        <Row>
-          <Label>苗字</Label>
-          <Input
-            {...register("firstName", {
-              required: "苗字は必須です。",
-            })}
-            onChange={onChange}
-          />
-        </Row>
-        <Row>
-          <Label>名前</Label>
-          <Input {...register("lastName")} />
-        </Row>
-        <Row>
-          <Label>ユーザーネーム</Label>
-          <Input
-            {...register("username", {
-              required: "ユーザーネームは必須です。",
-            })}
-            onChange={onChange}
-          />
-        </Row>
-        <Row>
-          <Label>Eメール</Label>
-          <Input
-            {...register("email", {
-              required: "メールアドレスは必須です。",
-            })}
-            onChange={onChange}
-          />
-        </Row>
-        <Row>
-          <Label>自己紹介</Label>
-          <Input {...register("bio")} onChange={onChange} />
-        </Row>
-        <Row>
-          <Label>パスワード</Label>
-          <Input
-            {...register("password")}
-            onChange={onChange}
-            type="password"
-          />
-        </Row>
-      </Form>
-      <Button onClick={handleSubmit(onValid)} loading={loading} valid={valid}>
-        {loading ? "送信中" : "送信する"}
-      </Button>
-    </Container>
+          </Row>
+          <Row>
+            <Label>Eメール</Label>
+            <Input
+              {...register("email", {
+                required: "メールアドレスは必須です。",
+              })}
+              onChange={onChange}
+            />
+          </Row>
+          <Row>
+            <Label>自己紹介</Label>
+            <Input {...register("bio")} onChange={onChange} />
+          </Row>
+          <Row>
+            <Label>パスワード</Label>
+            <Input
+              {...register("password")}
+              onChange={onChange}
+              type="password"
+            />
+          </Row>
+        </Form>
+        <Button onClick={handleSubmit(onValid)} loading={loading} valid={valid}>
+          {loading ? "送信中" : "送信する"}
+        </Button>
+      </Container>
+    </MainLayout>
   );
 }

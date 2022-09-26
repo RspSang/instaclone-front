@@ -56,11 +56,6 @@ export type Hashtag = {
   updatedAt: Scalars['String'];
 };
 
-
-export type HashtagPhotosArgs = {
-  offset: Scalars['Int'];
-};
-
 export type Like = {
   __typename?: 'Like';
   createdAt: Scalars['String'];
@@ -556,7 +551,6 @@ export type SeeFollowingQuery = { __typename?: 'Query', seeFollowing: { __typena
 
 export type SeeHashtagQueryVariables = Exact<{
   hashtag: Scalars['String'];
-  offset: Scalars['Int'];
 }>;
 
 
@@ -1378,11 +1372,11 @@ export type SeeFollowingQueryHookResult = ReturnType<typeof useSeeFollowingQuery
 export type SeeFollowingLazyQueryHookResult = ReturnType<typeof useSeeFollowingLazyQuery>;
 export type SeeFollowingQueryResult = Apollo.QueryResult<SeeFollowingQuery, SeeFollowingQueryVariables>;
 export const SeeHashtagDocument = gql`
-    query SeeHashtag($hashtag: String!, $offset: Int!) {
+    query SeeHashtag($hashtag: String!) {
   seeHashtag(hashtag: $hashtag) {
     id
     hashtag
-    photos(offset: $offset) {
+    photos {
       id
       file
       likes
@@ -1407,7 +1401,6 @@ export const SeeHashtagDocument = gql`
  * const { data, loading, error } = useSeeHashtagQuery({
  *   variables: {
  *      hashtag: // value for 'hashtag'
- *      offset: // value for 'offset'
  *   },
  * });
  */

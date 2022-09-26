@@ -58,7 +58,7 @@ function SignUp() {
         setError("result", { message: error });
         return;
       }
-      navigate(routes.home, {
+      navigate(routes.login, {
         state: {
           message: "アカウント生成に成功しました。ログインして下さい。",
           username,
@@ -97,11 +97,7 @@ function SignUp() {
             placeholder="苗字"
           />
           <FormError message={errors.firstName?.message} />
-          <Input
-            {...register("lastName")}
-            type="text"
-            placeholder="名前"
-          />
+          <Input {...register("lastName")} type="text" placeholder="名前" />
           <Input
             {...register("email", {
               required: "メールアドレスは必須です。",
@@ -141,7 +137,11 @@ function SignUp() {
           <FormError message={errors.result?.message} />
         </form>
       </FormBox>
-      <BottomBox cta="アカウントをお持ちですか？" linkText="ログインする" link={routes.home} />
+      <BottomBox
+        cta="アカウントをお持ちですか？"
+        linkText="ログインする"
+        link={routes.home}
+      />
     </AuthLayout>
   );
 }

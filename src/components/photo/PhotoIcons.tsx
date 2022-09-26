@@ -113,11 +113,16 @@ export default function PhotoIcons({
         >
           <FontAwesomeIcon
             style={{ color: isLiked ? "tomato" : "inherit" }}
+            size={"sm"}
             icon={isLiked ? SolidHeart : faHeart}
           />
         </LikeButton>
-        <FontAwesomeIcon icon={faComment} onClick={handleSeePhotoDetail} />
-        <FontAwesomeIcon icon={faPaperPlane} />
+        <FontAwesomeIcon
+          size={"sm"}
+          icon={faComment}
+          onClick={handleSeePhotoDetail}
+        />
+        <FontAwesomeIcon size={"sm"} icon={faPaperPlane} />
       </div>
       <div>
         <FontAwesomeIcon icon={faBookmark} />

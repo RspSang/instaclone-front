@@ -115,11 +115,11 @@ const PhotoContainer = ({
         </Link>
         <Caption>
           {caption?.split(" ").map((word: string, index: number) =>
-            /#[a-zA-Z0-9가-힇ㄱ-ㅎㅏ-ㅣぁ-ゔァ-ヴー々〆〤一-龥\w]+/g.test(word) === true ? (
+            /#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) === true ? (
               <Link key={index} to={`/hashtags/${word.replace("#", "")}`}>
                 {word}{" "}
               </Link>
-            ) : /@[a-zA-Z0-9가-힇ㄱ-ㅎㅏ-ㅣぁ-ゔァ-ヴー々〆〤一-龥\w]+/g.test(word) === true ? (
+            ) : /@[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) === true ? (
               <Link key={index} to={`/users/${word.replace("@", "")}`}>
                 {word}{" "}
               </Link>

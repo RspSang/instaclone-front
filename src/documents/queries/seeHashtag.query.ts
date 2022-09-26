@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
 
 gql`
-  query SeeHashtag($hashtag: String!, $offset: Int!) {
+  query SeeHashtag($hashtag: String!) {
     seeHashtag(hashtag: $hashtag) {
       id
       hashtag
-      photos(offset: $offset) {
+      photos {
         id
         file
         likes

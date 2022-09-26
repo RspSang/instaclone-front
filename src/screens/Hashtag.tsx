@@ -2,6 +2,7 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import MainLayout from "../components/shared/MainLayout";
 import PageTitle from "../components/shared/PageTitle";
 import { useSeeHashtagQuery } from "../generated/graphql";
 
@@ -75,45 +76,52 @@ const Icon = styled.span`
   }
 `;
 
+const Container = styled.div`
+  margin: 108px 0;
+`;
+
 export default function Hashtag() {
   const { hashtag } = useParams();
   const { data, loading } = useSeeHashtagQuery({
-    variables: { hashtag: "#" + hashtag!, offset: 0 },
+    variables: { hashtag: "#" + hashtag! },
   });
+  console.log(data);
   return (
-    <div>
-      <PageTitle
-        title={loading ? "ロード中" : `${data?.seeHashtag?.hashtag}`}
-      />
-      <Header>
-        <Avatar
-          src={
-            data?.seeHashtag?.photos && data?.seeHashtag?.photos?.length > 0
-              ? data?.seeHashtag?.photos[0]?.file
-              : "/images/basic_user.jpeg"
-          }
+    <MainLayout>
+      <Container>
+        <PageTitle
+          title={loading ? "ロード中" : `${data?.seeHashtag?.hashtag}`}
         />
-        <Row>
-          <HashtagTitle>{"#" + hashtag}</HashtagTitle>
-          <HashtagCount>投稿 {data?.seeHashtag?.totalPhotos} 件</HashtagCount>
-        </Row>
-      </Header>
-      <Grid>
-        {data?.seeHashtag?.photos?.map((photo) => (
-          <Photo key={photo?.id} bg={photo?.file}>
-            <Icons>
-              <Icon>
-                <FontAwesomeIcon icon={faHeart} />
-                {photo?.likes}
-              </Icon>
-              <Icon>
-                <FontAwesomeIcon icon={faComment} />
-                {photo?.commentNumber}
-              </Icon>
-            </Icons>
-          </Photo>
-        ))}
-      </Grid>
-    </div>
+        <Header>
+          <Avatar
+            src={
+              data?.seeHashtag?.photos && data?.seeHashtag?.photos?.length > 0
+                ? data?.seeHashtag?.photos[0]?.file
+                : "/images/basic_user.jpeg"
+            }
+          />
+          <Row>
+            <HashtagTitle>{"#" + hashtag}</HashtagTitle>
+            <HashtagCount>投稿 {data?.seeHashtag?.totalPhotos} 件</HashtagCount>
+          </Row>
+        </Header>
+        <Grid>
+          {data?.seeHashtag?.photos?.map((photo) => (
+            <Photo key={photo?.id} bg={photo?.file}>
+              <Icons>
+                <Icon>
+                  <FontAwesomeIcon icon={faHeart} />
+                  {photo?.likes}
+                </Icon>
+                <Icon>
+                  <FontAwesomeIcon icon={faComment} />
+                  {photo?.commentNumber}
+                </Icon>
+              </Icons>
+            </Photo>
+          ))}
+        </Grid>
+      </Container>
+    </MainLayout>
   );
 }

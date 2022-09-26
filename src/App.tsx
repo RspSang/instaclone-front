@@ -11,7 +11,6 @@ import { HelmetProvider } from "react-helmet-async";
 import Profile from "./screens/Profile";
 import EditProfile from "./screens/EditProfile";
 import Hashtag from "./screens/Hashtag";
-import Layout from "./components/shared/Layout";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -33,22 +32,8 @@ function App() {
                 <Route path="followers" element={<Profile />} />
                 <Route path="following" element={<Profile />} />
               </Route>
-              <Route
-                path={`/users/:username/edit`}
-                element={
-                  <Layout>
-                    <EditProfile />
-                  </Layout>
-                }
-              />
-              <Route
-                path={`/hashtags/:hashtag`}
-                element={
-                  <Layout>
-                    <Hashtag />
-                  </Layout>
-                }
-              />
+              <Route path={`/users/:username/edit`} element={<EditProfile />} />
+              <Route path={`/hashtags/:hashtag`} element={<Hashtag />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

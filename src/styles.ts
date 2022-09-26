@@ -19,14 +19,14 @@ export const darkTheme: DefaultTheme = {
   accent: "#273c75",
   borderColor: "#3C3C3C",
   fontColor: "white",
-  bgColor: "#1E1E2C",
+  bgColor: "#080808",
   buttonFontColor: "#F5F6FA",
   grayColor: "#8F8F8F",
   activeColor: "#0095F6",
   inactiveColor: "#B2DFFC",
   errorColor: "#ED4956",
-  bgContainerColor: "#0F3460",
-  hashtagColor: "#2D2D44",
+  bgContainerColor: "#000000",
+  hashtagColor: "#01376B",
 };
 
 export const GlobalStyles = createGlobalStyle`
