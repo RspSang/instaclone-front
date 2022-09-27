@@ -97,8 +97,8 @@ function Login() {
             {...register("username", {
               required: "ユーザーネームは必須です。",
               minLength: {
-                value: 5,
-                message: "ユーザーネームは5文字以上必要です。",
+                value: 4,
+                message: "ユーザーネームは4文字以上必要です。",
               },
             })}
             onFocus={clearError}

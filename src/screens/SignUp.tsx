@@ -83,9 +83,7 @@ function SignUp() {
       <FormBox>
         <HeaderContainer>
           <FontAwesomeIcon icon={faInstagram} size="3x" />
-          <Subtitle>
-            Sign up to see photos and videos from your friends.
-          </Subtitle>
+          <Subtitle>登録して友達の写真や動画をチェックしよう</Subtitle>
         </HeaderContainer>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
@@ -115,7 +113,7 @@ function SignUp() {
             {...register("username", {
               required: "ユーザーネームは必須です。",
               minLength: {
-                value: 5,
+                value: 4,
                 message: "ユーザーネームは5文字以上必要です。",
               },
             })}

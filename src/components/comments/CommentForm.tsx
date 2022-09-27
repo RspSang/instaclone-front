@@ -39,7 +39,7 @@ const Input = styled.input`
   padding-left: 10px;
   margin-right: auto;
   font-size: 14px;
-  width: 80%;
+  width: 75%;
   border-radius: 3px;
   background-color: ${(props) => props.theme.bgContainerColor};
   color: ${(props) => props.theme.fontColor};
@@ -62,6 +62,7 @@ const Button = styled.button`
   background-color: transparent;
   cursor: pointer;
   padding: 0;
+  /* width: 15%; */
 `;
 
 const PickerBox = styled.div<{ position: string }>`

@@ -19,13 +19,13 @@ export const darkTheme: DefaultTheme = {
   accent: "#273c75",
   borderColor: "#3C3C3C",
   fontColor: "white",
-  bgColor: "#080808",
+  bgColor: "#000000",
   buttonFontColor: "#F5F6FA",
   grayColor: "#8F8F8F",
   activeColor: "#0095F6",
   inactiveColor: "#B2DFFC",
   errorColor: "#ED4956",
-  bgContainerColor: "#000000",
+  bgContainerColor: "#080808",
   hashtagColor: "#01376B",
 };
 

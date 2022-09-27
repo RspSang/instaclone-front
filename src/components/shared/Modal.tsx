@@ -24,7 +24,7 @@ const Card = styled.div`
   height: 60%;
   max-width: 1120px;
   max-height: 900px;
-  background-color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.bgContainerColor};
   border-radius: 10px;
   box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 `;

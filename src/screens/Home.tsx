@@ -276,60 +276,72 @@ const Home = () => {
           ))}
           <br />
         </LeftContainer>
-        <RightContainer>
-          <AsideContent>
-            <AsideHeader>
-              <Link to={`/users/${userData?.me?.username}`}>
-                <Avatar size="55px" avatarUrl={userData?.me?.avatar} />
-              </Link>
-              <UserInfo>
+        {userData?.me && (
+          <RightContainer>
+            <AsideContent>
+              <AsideHeader>
                 <Link to={`/users/${userData?.me?.username}`}>
-                  <Username username={userData?.me?.username} size="16px" />
+                  <Avatar size="55px" avatarUrl={userData?.me?.avatar} />
                 </Link>
-                <Name
-                  name={userData?.me?.firstName + " " + userData?.me?.lastName}
-                  size="14px"
-                />
-              </UserInfo>
-            </AsideHeader>
-            <AsideMain>
-              <AsideMainHeader>
-                <h1>おすすめ</h1>
-                <Link to="/">
-                  <span>すべて見る</span>
-                </Link>
-              </AsideMainHeader>
-              <AsideMainInner>
-                {seeRecommendUsersData?.seeRecommendUsers.users?.map((user) => (
-                  <RecommandContent key={user?.id}>
-                    <Link to={`/users/${user?.username}`}>
-                      <Avatar size="32px" avatarUrl={user?.avatar} />
-                    </Link>
-                    <UserInfo>
-                      <Link to={`/users/${user?.username}`}>
-                        <Username username={user?.username} size="14px" />
-                      </Link>
-                      <Name
-                        name={user?.firstName + " " + user?.lastName}
-                        size="12px"
-                      />
-                    </UserInfo>
-                    <FollowButton
-                      onClick={() =>
-                        handleToggleFollow(user?.isFollowing, user?.username)
-                      }
-                      isFollowing={user?.isFollowing || false}
-                      type="button"
-                    >
-                      {user?.isFollowing === true ? "フォロー中" : "フォローする"}
-                    </FollowButton>
-                  </RecommandContent>
-                ))}
-              </AsideMainInner>
-            </AsideMain>
-            <Info />
-          </AsideContent>
-        </RightContainer>
+                <UserInfo>
+                  <Link to={`/users/${userData?.me?.username}`}>
+                    <Username username={userData?.me?.username} size="16px" />
+                  </Link>
+                  <Name
+                    name={
+                      userData?.me?.firstName + " " + userData?.me?.lastName
+                    }
+                    size="14px"
+                  />
+                </UserInfo>
+              </AsideHeader>
+
+              <AsideMain>
+                <AsideMainHeader>
+                  <h1>おすすめ</h1>
+                  <Link to="/">
+                    <span>すべて見る</span>
+                  </Link>
+                </AsideMainHeader>
+                <AsideMainInner>
+                  {seeRecommendUsersData?.seeRecommendUsers.users?.map(
+                    (user) => (
+                      <RecommandContent key={user?.id}>
+                        <Link to={`/users/${user?.username}`}>
+                          <Avatar size="32px" avatarUrl={user?.avatar} />
+                        </Link>
+                        <UserInfo>
+                          <Link to={`/users/${user?.username}`}>
+                            <Username username={user?.username} size="14px" />
+                          </Link>
+                          <Name
+                            name={user?.firstName + " " + user?.lastName}
+                            size="12px"
+                          />
+                        </UserInfo>
+                        <FollowButton
+                          onClick={() =>
+                            handleToggleFollow(
+                              user?.isFollowing,
+                              user?.username
+                            )
+                          }
+                          isFollowing={user?.isFollowing || false}
+                          type="button"
+                        >
+                          {user?.isFollowing === true
+                            ? "フォロー中"
+                            : "フォローする"}
+                        </FollowButton>
+                      </RecommandContent>
+                    )
+                  )}
+                </AsideMainInner>
+              </AsideMain>
+              <Info />
+            </AsideContent>
+          </RightContainer>
+        )}
       </Container>
     </FeedLayout>
   );

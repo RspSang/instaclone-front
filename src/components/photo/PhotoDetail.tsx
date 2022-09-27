@@ -304,14 +304,14 @@ const EditingPhotoForm = styled.form`
 `;
 
 const EditingPhotoInput = styled.input`
-  width: 97%;
+  width: 70%;
+  line-height: normal;
   background-color: ${(props) => props.theme.bgColor};
   padding: 13px 12px;
   padding-right: 65px;
   border-radius: 5px;
   font-size: 13px;
   color: ${(props) => props.theme.fontColor};
-
   &::placeholder {
     font-size: 13px;
   }
@@ -319,7 +319,7 @@ const EditingPhotoInput = styled.input`
 
 const EditingPhotoButton = styled.button`
   position: absolute;
-  top: 8px;
+  bottom: 8px;
   right: 15px;
   border: none;
   color: white;
@@ -556,9 +556,9 @@ const PhotoDetail = ({
                               <EditingPhotoInput
                                 {...editPhotoRegister("caption", {
                                   required: true,
-                                  maxLength: 100,
+                                  maxLength: 300,
                                 })}
-                                type="text"
+                                type="textarea"
                                 placeholder="キャップションを入力"
                                 required
                                 maxLength={100}

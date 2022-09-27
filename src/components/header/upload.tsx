@@ -11,7 +11,7 @@ import { useUploadPhotoMutation } from "../../generated/graphql";
 import Avatar from "../shared/Avatar";
 import Loading from "../shared/Loading";
 import Modal from "../shared/Modal";
-import Name from "../shared/Name";
+import Username from "../shared/Username";
 
 interface UploadProps {
   username?: string | null;
@@ -110,6 +110,8 @@ const CaptionInput = styled.textarea`
   height: 160px;
   font-size: 15px;
   line-height: 1.5;
+  background-color: ${(props) => props.theme.bgContainerColor};
+  color: ${(props) => props.theme.fontColor};
 `;
 
 const Text = styled.span`
@@ -209,7 +211,7 @@ export default function Upload({ username, avatar }: UploadProps) {
                     />
                     <span>新規投稿を作成</span>
                     <Next onClick={handleSubmit(onValid)}>
-                      {loading ? <Loading size="14px" /> : "ジェア"}
+                      {loading ? <Loading size="14px" /> : "シェア"}
                     </Next>
                   </ConfirmTitle>
                   <ConfirmContainer>
@@ -218,8 +220,8 @@ export default function Upload({ username, avatar }: UploadProps) {
                     </ImgContainer>
                     <CaptionContainer>
                       <Profile>
-                        <Avatar avatarUrl={avatar} size="17px" />
-                        <Name name={username} size="13px" />
+                        <Avatar avatarUrl={avatar} size="24px" />
+                        <Username username={username} size="13px" />
                       </Profile>
                       <form>
                         <CaptionInput
