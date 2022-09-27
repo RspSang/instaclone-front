@@ -554,7 +554,7 @@ export type SeeHashtagQueryVariables = Exact<{
 }>;
 
 
-export type SeeHashtagQuery = { __typename?: 'Query', seeHashtag?: { __typename?: 'Hashtag', id: number, hashtag: string, totalPhotos?: number | null, photos?: Array<{ __typename?: 'Photo', id: number, file: string, likes: number, commentNumber: number, isLiked: boolean } | null> | null } | null };
+export type SeeHashtagQuery = { __typename?: 'Query', seeHashtag?: { __typename?: 'Hashtag', id: number, hashtag: string, totalPhotos?: number | null, photos?: Array<{ __typename?: 'Photo', id: number, file: string, likes: number, caption?: string | null, commentNumber: number, isLiked: boolean, createdAt: string, user?: { __typename?: 'User', firstName: string, lastName?: string | null, username: string, avatar?: string | null } | null } | null> | null } | null };
 
 export type SeePhotoLikesQueryVariables = Exact<{
   photoId: Scalars['Int'];
@@ -1380,8 +1380,16 @@ export const SeeHashtagDocument = gql`
       id
       file
       likes
+      caption
       commentNumber
       isLiked
+      createdAt
+      user {
+        firstName
+        lastName
+        username
+        avatar
+      }
     }
     totalPhotos
   }

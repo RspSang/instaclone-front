@@ -32,8 +32,13 @@ function App() {
                 <Route path="followers" element={<Profile />} />
                 <Route path="following" element={<Profile />} />
               </Route>
-              <Route path={`/users/:username/edit`} element={<EditProfile />} />
-              <Route path={`/hashtags/:hashtag`} element={<Hashtag />} />
+              <Route path="/users/:username/edit" element={<EditProfile />} />
+              <Route path="/hashtags/:hashtag" element={<Hashtag />}>
+                <Route
+                  path="/hashtags/:hashtag/photos/:id"
+                  element={<Hashtag />}
+                />
+              </Route>
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

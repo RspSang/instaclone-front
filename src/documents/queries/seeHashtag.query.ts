@@ -9,8 +9,16 @@ gql`
         id
         file
         likes
+        caption
         commentNumber
         isLiked
+        createdAt
+        user {
+          firstName
+          lastName
+          username
+          avatar
+        }
       }
       totalPhotos
     }

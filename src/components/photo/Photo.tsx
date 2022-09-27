@@ -114,19 +114,16 @@ const PhotoContainer = ({
           <Username username={user?.username} size="15px" />
         </Link>
         <Caption>
-          {caption?.split(" ").map((word: string, index: number) =>
-            /#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) === true ? (
-              <Link key={index} to={`/hashtags/${word.replace("#", "")}`}>
-                {word}{" "}
-              </Link>
-            ) : /@[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) === true ? (
-              <Link key={index} to={`/users/${word.replace("@", "")}`}>
-                {word}{" "}
-              </Link>
-            ) : (
-              <React.Fragment key={index}>{word} </React.Fragment>
-            )
-          )}
+          {caption?.split(/(#[^\s]+)/g).map((word, index) => {
+            if (word.match(/#[^\s]+/)) {
+              return (
+                <Link to={`/hashtags/${word.replace("#", "")}`} key={index}>
+                  {word}
+                </Link>
+              );
+            }
+            return word;
+          })}
         </Caption>
       </CaptionContainer>
       <TotalComments

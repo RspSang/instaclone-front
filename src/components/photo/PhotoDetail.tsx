@@ -332,6 +332,18 @@ const EditingPhotoButton = styled.button`
     props.disabled ? props.theme.inactiveColor : props.theme.activeColor};
 `;
 
+const Caption = styled.span`
+  margin-left: 5px;
+  line-height: 1.2;
+  a {
+    color: ${(props) => props.theme.hashtagColor};
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
 const PhotoDetail = ({
   id,
   user,
@@ -577,7 +589,26 @@ const PhotoDetail = ({
                               </EditingPhotoButton>
                             </EditingPhotoForm>
                           ) : (
-                            <p>{caption}</p>
+                            <Caption>
+                              {caption
+                                ?.split(/(#[^\s]+)/g)
+                                .map((word, index) => {
+                                  if (word.match(/#[^\s]+/)) {
+                                    return (
+                                      <Link
+                                        to={`/hashtags/${word.replace(
+                                          "#",
+                                          ""
+                                        )}`}
+                                        key={index}
+                                      >
+                                        {word}
+                                      </Link>
+                                    );
+                                  }
+                                  return word;
+                                })}
+                            </Caption>
                           )}
                         </ModalMainUserInfoCaption>
                         <CreatedAt createdAt={createdAt} />
