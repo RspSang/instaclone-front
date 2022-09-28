@@ -166,7 +166,7 @@ const Home = () => {
         }
         followUsername = data?.followUser?.user?.username;
         cache.modify({
-          id: `User:${data?.followUser?.user?.username}`,
+          id: `User:${followUsername}`,
           fields: {
             isFollowing: (isFollowing: boolean) => true,
             totalFollowers: (totalFollowers: number) => totalFollowers + 1,
@@ -182,11 +182,11 @@ const Home = () => {
       refetchQueries: [
         {
           query: SEE_FOLLOWERS,
-          variables: { username: followUsername as string, page: 1 },
+          variables: { username: followUsername || "", page: 1 },
         },
         {
           query: SEE_FOLLOWING,
-          variables: { username: userData?.me?.username as string, page: 1 },
+          variables: { username: userData?.me?.username || "", page: 1 },
         },
       ],
     });
@@ -214,11 +214,11 @@ const Home = () => {
       refetchQueries: [
         {
           query: SEE_FOLLOWERS,
-          variables: { username: unfollowUsername as string, page: 1 },
+          variables: { username: unfollowUsername || "", page: 1 },
         },
         {
           query: SEE_FOLLOWING,
-          variables: { username: userData?.me?.username as string, page: 1 },
+          variables: { username: userData?.me?.username || "", page: 1 },
         },
       ],
     });
@@ -295,11 +295,10 @@ const Home = () => {
                   />
                 </UserInfo>
               </AsideHeader>
-
               <AsideMain>
                 <AsideMainHeader>
                   <h1>おすすめ</h1>
-                  <Link to="/">
+                  <Link to="/users/all">
                     <span>すべて見る</span>
                   </Link>
                 </AsideMainHeader>

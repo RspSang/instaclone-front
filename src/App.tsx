@@ -11,6 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Profile from "./screens/Profile";
 import EditProfile from "./screens/EditProfile";
 import Hashtag from "./screens/Hashtag";
+import SeeUsers from "./components/shared/SeeUsers";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<Home />}>
                 <Route path="photos/:id" element={<Home />} />
               </Route>
+              <Route path="/users/all" element={<SeeUsers />} />
               {!isLoggedIn && <Route path="/login" element={<Login />} />}
               {!isLoggedIn && <Route path="/signup" element={<SignUp />} />}
               <Route path="users/:username" element={<Profile />}>

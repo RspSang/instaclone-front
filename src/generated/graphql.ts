@@ -229,6 +229,7 @@ export type Query = {
   seeRecommendUsers: SeeRecommendUsersResult;
   seeRoom?: Maybe<Room>;
   seeRooms?: Maybe<Array<Maybe<Room>>>;
+  seeUsers: SeeUsersResult;
 };
 
 
@@ -350,6 +351,13 @@ export type SeeRecommendPhotosResult = {
 
 export type SeeRecommendUsersResult = {
   __typename?: 'SeeRecommendUsersResult';
+  error?: Maybe<Scalars['String']>;
+  ok: Scalars['Boolean'];
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
+export type SeeUsersResult = {
+  __typename?: 'SeeUsersResult';
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
   users?: Maybe<Array<Maybe<User>>>;
@@ -580,6 +588,11 @@ export type SeeRecommendUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SeeRecommendUsersQuery = { __typename?: 'Query', seeRecommendUsers: { __typename?: 'SeeRecommendUsersResult', ok: boolean, error?: string | null, users?: Array<{ __typename?: 'User', id: number, firstName: string, lastName?: string | null, username: string, avatar?: string | null, isFollowing: boolean, isMe: boolean } | null> | null } };
+
+export type SeeUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SeeUsersQuery = { __typename?: 'Query', seeUsers: { __typename?: 'SeeUsersResult', ok: boolean, error?: string | null, users?: Array<{ __typename?: 'User', id: number, username: string, avatar?: string | null, isFollowing: boolean, firstName: string, lastName?: string | null, email: string, bio?: string | null, isMe: boolean, following?: Array<{ __typename?: 'User', id: number, firstName: string, lastName?: string | null, username: string, avatar?: string | null, isFollowing: boolean } | null> | null, followers?: Array<{ __typename?: 'User', id: number, firstName: string, lastName?: string | null, username: string, avatar?: string | null, isFollowing: boolean } | null> | null } | null> | null } };
 
 
 export const CreateAccountDocument = gql`
@@ -1657,3 +1670,65 @@ export function useSeeRecommendUsersLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type SeeRecommendUsersQueryHookResult = ReturnType<typeof useSeeRecommendUsersQuery>;
 export type SeeRecommendUsersLazyQueryHookResult = ReturnType<typeof useSeeRecommendUsersLazyQuery>;
 export type SeeRecommendUsersQueryResult = Apollo.QueryResult<SeeRecommendUsersQuery, SeeRecommendUsersQueryVariables>;
+export const SeeUsersDocument = gql`
+    query SeeUsers {
+  seeUsers {
+    ok
+    error
+    users {
+      id
+      username
+      avatar
+      isFollowing
+      firstName
+      lastName
+      email
+      bio
+      isMe
+      following {
+        id
+        firstName
+        lastName
+        username
+        avatar
+        isFollowing
+      }
+      followers {
+        id
+        firstName
+        lastName
+        username
+        avatar
+        isFollowing
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSeeUsersQuery__
+ *
+ * To run a query within a React component, call `useSeeUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSeeUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSeeUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSeeUsersQuery(baseOptions?: Apollo.QueryHookOptions<SeeUsersQuery, SeeUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SeeUsersQuery, SeeUsersQueryVariables>(SeeUsersDocument, options);
+      }
+export function useSeeUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SeeUsersQuery, SeeUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SeeUsersQuery, SeeUsersQueryVariables>(SeeUsersDocument, options);
+        }
+export type SeeUsersQueryHookResult = ReturnType<typeof useSeeUsersQuery>;
+export type SeeUsersLazyQueryHookResult = ReturnType<typeof useSeeUsersLazyQuery>;
+export type SeeUsersQueryResult = Apollo.QueryResult<SeeUsersQuery, SeeUsersQueryVariables>;
