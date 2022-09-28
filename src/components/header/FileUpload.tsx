@@ -121,7 +121,7 @@ const Text = styled.span`
   color: ${(props) => props.theme.fontColor};
 `;
 
-export default function Upload({ username, avatar }: UploadProps) {
+export default function FileUpload({ username, avatar }: UploadProps) {
   const { register, handleSubmit, watch, getValues, setValue } =
     useForm<FileDataForm>();
   const [imagePreview, setImagePreview] = useState("");

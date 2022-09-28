@@ -166,7 +166,7 @@ export default function SeeUsers() {
         </LoadingContainer>
       ) : (
         <Container>
-          <h1>추천</h1>
+          <h1>おすすめ</h1>
           <UsersContainer>
             {seeUsersData?.seeUsers.users?.map((user) => (
               <MainContent key={user?.id}>

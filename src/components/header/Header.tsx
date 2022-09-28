@@ -11,7 +11,7 @@ import routes from "../../routes";
 import DarkMode from "../shared/DarkMode";
 import Avatar from "../shared/Avatar";
 import Search from "./Search";
-import Upload from "./Upload";
+import FileUpload from "./FileUpload";
 
 const SHeader = styled.header`
   width: 100%;
@@ -79,7 +79,7 @@ function Header() {
                   <FontAwesomeIcon icon={faPaperPlane} size="lg" />
                 </Icon>
                 <Icon>
-                  <Upload {...data?.me} />
+                  <FileUpload {...data?.me} />
                 </Icon>
                 <Icon>
                   <Link to={`/users/${data?.me?.username}`}>
