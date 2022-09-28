@@ -1,7 +1,7 @@
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Avatar from "../components/shared/Avatar";
@@ -153,11 +153,11 @@ export default function EditProfile() {
 
   const imageFile = watch("avatar");
 
-  const onChange = () => {
+  const onChange = useCallback(() => {
     setValid(true);
     setShow(false);
     clearErrors();
-  };
+  }, [clearErrors]);
 
   useEffect(() => {
     if (imageFile && imageFile.length > 0) {
@@ -165,7 +165,7 @@ export default function EditProfile() {
       const file = imageFile[0];
       setImagePreview(URL.createObjectURL(file));
     }
-  }, [imageFile]);
+  }, [imageFile, onChange]);
 
   useEffect(() => {
     if (data && data.editProfile.error) {
