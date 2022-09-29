@@ -39,12 +39,38 @@ const Icon = styled.span`
   margin-left: 15px;
 `;
 
-const Button = styled.span`
-  background-color: ${(props) => props.theme.accent};
-  border-radius: 4px;
-  padding: 4px 15px;
-  color: white;
-  font-weight: 600;
+const LogoutNav = styled.nav`
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 22px;
+  a {
+    color: inherit;
+    &:last-child {
+      margin-left: 25px;
+    }
+  }
+`;
+
+const LoginLink = styled(Link)`
+  background-color: ${(props) => props.theme.activeColor};
+  padding: 7px 20px;
+  border-radius: 5px;
+  span {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: middle;
+  }
+`;
+
+const SignupLink = styled(Link)`
+  span {
+    color: ${(props) => props.theme.activeColor};
+    font-size: 14px;
+    font-weight: bold;
+  }
 `;
 
 const IconsContainer = styled.div`
@@ -100,9 +126,14 @@ function Header() {
               </IconsContainer>
             </>
           ) : (
-            <Link to={routes.login}>
-              <Button>Login</Button>
-            </Link>
+            <LogoutNav>
+              <LoginLink to={routes.login}>
+                <span>ログイン</span>
+              </LoginLink>
+              <SignupLink to={routes.signup}>
+                <span>会員登録</span>
+              </SignupLink>
+            </LogoutNav>
           )}
         </Column>
       </Wrapper>
