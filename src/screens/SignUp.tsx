@@ -24,7 +24,7 @@ const HeaderContainer = styled.div`
 `;
 
 const Subtitle = styled(FatLink)`
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
   margin-top: 10px;
 `;
@@ -89,8 +89,10 @@ function SignUp() {
           <Input
             {...register("firstName", {
               required: "苗字は必須です。",
+              onChange(event) {
+                clearError();
+              },
             })}
-            onFocus={clearError}
             type="text"
             placeholder="苗字"
           />
@@ -138,7 +140,7 @@ function SignUp() {
       <BottomBox
         cta="アカウントをお持ちですか？"
         linkText="ログインする"
-        link={routes.home}
+        link={routes.login}
       />
     </AuthLayout>
   );

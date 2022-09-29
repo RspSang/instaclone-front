@@ -100,15 +100,21 @@ function Login() {
                 value: 4,
                 message: "ユーザーネームは4文字以上必要です。",
               },
+              onChange(event) {
+                clearError();
+              },
             })}
-            onFocus={clearError}
             type="text"
             placeholder="ユーザーネーム"
           />
           <FormError message={errors?.username?.message} />
           <Input
-            {...register("password", { required: "パスワードは必須です。" })}
-            onFocus={clearError}
+            {...register("password", {
+              required: "パスワードは必須です。",
+              onChange(event) {
+                clearError();
+              },
+            })}
             type="password"
             placeholder="パスワード"
           />
