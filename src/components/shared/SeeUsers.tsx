@@ -193,7 +193,7 @@ export default function SeeUsers() {
                     }
                     type="button"
                   >
-                    {user?.isFollowing ? "フォロー中" : "フォローする"}
+                    {user?.isFollowing ? "フォロー中" : "フォロー"}
                   </FollowButton>
                 )}
               </MainContent>

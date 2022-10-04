@@ -464,12 +464,12 @@ export default function Profile() {
                         }
                         type="button"
                       >
-                        {followUserLoading === true &&
+                        {followUserLoading&&
                         followUserData?.followUser?.user?.username ===
                           follower?.username ? (
                           <Loading size="12px" />
-                        ) : follower?.isFollowing === true ? (
-                          "フォローする"
+                        ) : follower?.isFollowing? (
+                          "フォロー中"
                         ) : (
                           "フォロー"
                         )}
@@ -508,12 +508,12 @@ export default function Profile() {
                         }
                         type="button"
                       >
-                        {followUserLoading === true &&
+                        {followUserLoading &&
                         followUserData?.followUser?.user?.username ===
                           following?.username ? (
                           <Loading size="12px" />
-                        ) : following?.isFollowing === true ? (
-                          "フォローする"
+                        ) : following?.isFollowing ? (
+                          "フォロー中"
                         ) : (
                           "フォロー"
                         )}
@@ -557,7 +557,7 @@ export default function Profile() {
                         username ? (
                         <Loading size="12px" />
                       ) : (
-                        "フォローをやめる"
+                        "フォロー中"
                       )}
                     </Button>
                   )}
