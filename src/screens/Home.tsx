@@ -13,7 +13,7 @@ import {
 } from "../generated/graphql";
 import { SEE_FOLLOWERS } from "../documents/queries/seeFollowers.query";
 import { SEE_FOLLOWING } from "../documents/queries/seeFollowing.query";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useUser from "../hooks/useUser";
 import Avatar from "../components/shared/Avatar";
 import PhotoContainer from "../components/photo/Photo";
@@ -152,7 +152,9 @@ const Home = () => {
   let followUsername: string | undefined;
   let unfollowUsername: string | undefined;
   const { data: userData } = useUser();
-  const { data: seeFeedData } = useSeeFeedQuery({ variables: { offset: 0 } });
+  const { data: seeFeedData, fetchMore } = useSeeFeedQuery({
+    variables: { offset: 0 },
+  });
   const { data: seeFollowingData } = useSeeFollowingQuery({
     variables: { username: userData?.me?.username || "", page: 1 },
   });
@@ -242,6 +244,23 @@ const Home = () => {
       unfollowUserMutation({ variables: { username: username as string } });
     }
   };
+
+  const handleScroll = useCallback(async (): Promise<void> => {
+    const scrollTop: number = document.documentElement.scrollTop;
+    const innerHeight: number = window.innerHeight;
+    const scrollHeight: number = document.body.scrollHeight;
+
+    if (scrollTop + innerHeight >= scrollHeight) {
+      await fetchMore({
+        variables: { offset: seeFeedData?.seeFeed?.length },
+      });
+    }
+  }, [fetchMore, seeFeedData?.seeFeed?.length]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   useEffect(() => {
     document.body.style.overflow = "auto";
