@@ -15,17 +15,6 @@ const DARK_MODE = "DARK_MODE";
 
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 
-export const logUserIn = (token: string) => {
-  localStorage.setItem(TOKEN, token);
-  isLoggedInVar(true);
-};
-
-export const logUserOut = (navigate?: NavigateFunction) => {
-  localStorage.removeItem(TOKEN);
-  isLoggedInVar(false);
-  if (navigate) navigate(routes.home, { replace: true });
-};
-
 export const darkModeVar = makeVar(Boolean(localStorage.getItem(DARK_MODE)));
 
 export const enableDarkMode = () => {
@@ -78,3 +67,15 @@ export const client = new ApolloClient({
   link: authLink.concat(uploadHttpLink),
   cache,
 });
+
+export const logUserIn = (token: string) => {
+  localStorage.setItem(TOKEN, token);
+  isLoggedInVar(true);
+};
+
+export const logUserOut = (navigate?: NavigateFunction) => {
+  client.clearStore();
+  localStorage.removeItem(TOKEN);
+  isLoggedInVar(false);
+  if (navigate) navigate(routes.home, { replace: true });
+};
