@@ -85,7 +85,7 @@ const ProfileUser = styled.div`
   }
   button {
     box-sizing: border-box;
-    width: 86px;
+    width: 95px;
     padding: 7px 0;
     margin: 0px;
     margin-left: 7px;
