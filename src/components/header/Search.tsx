@@ -199,9 +199,8 @@ export default function Search() {
                 },
                 searchingHashtag: async (keyword: string): Promise<boolean> => {
                   if (keyword.match(/#\w/g) && !searchHashtagsLoading) {
-                    const replacedHashtag: string = keyword.replaceAll("#", "");
                     const { data } = await searchHashtags({
-                      variables: { keyword: "#" + replacedHashtag, offset: 0 },
+                      variables: { keyword, offset: 0 },
                     });
                     if (
                       data?.searchHashtags &&
