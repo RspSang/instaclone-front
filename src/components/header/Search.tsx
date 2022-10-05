@@ -189,6 +189,8 @@ export default function Search() {
                     });
                     if (data?.searchUsers && data?.searchUsers.length > 0) {
                       setSearchedUsers(data.searchUsers);
+                    } else {
+                      setSearchedUsers([]);
                     }
                   } else {
                     setSearchedUsers([]);
@@ -206,6 +208,8 @@ export default function Search() {
                       data?.searchHashtags.length > 0
                     ) {
                       setSearchedHashtags(data?.searchHashtags);
+                    } else {
+                      setSearchedHashtags([]);
                     }
                   } else {
                     setSearchedHashtags([]);
