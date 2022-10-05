@@ -137,7 +137,7 @@ const ModalMainUserInfo = styled.div`
 `;
 
 const FollowButton = styled(Button)<{ isFollowing: boolean | undefined }>`
-  width: 60px;
+  width: 80px;
   height: 32px;
   text-align: center;
   background-color: ${(props) =>
