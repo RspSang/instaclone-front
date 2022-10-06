@@ -4,7 +4,7 @@
     <br /><br />
     <a display="block" href="https://instagram-rspsang.netlify.app">https://instagram-rspsang.netlify.app</a>
     <br /><br />
-    <!-- <img height="700" src="./previews/1.gif" /> -->
+    <img height="700" width="660"src="./previews/1.gif" />
   </a>
 </div>
 
@@ -42,17 +42,17 @@
 - 会員登録時、入力したパスワードは`Bcrypt`を利用してハッシュ化され、アカウント情報は`PostgreSQL`に保存されます。
 - ユーザーはユーザーネーム、パスワードを利用してログインすることができます。
 - ログインに成功した場合、`JsonWebToken`からもらってトークンをローカルストレージに保存します。
-- `Apollo Client`の`Reactive variables`を利用してlocal stateをアップデートします。
+- `Apollo Client`の`Reactive variables`を利用して local state をアップデートします。
 - `Reactive variables`を変更することによって該当変数に依存する全てのクエリのアップデートが行われます。
 - ログアウトの際`Reactive variables`を変更し、ローカルストレージに保存されたトークン、ストアに保存されたデータを消去します。
   <br /><br />
-  <!-- <img height="700" src="./previews/2.gif" /> -->
+  <img height="700" width="660" src="./previews/2.gif" />
 
 > 2. プロフィール
 
 - プロフィールページからユーザー情報、写真、フォロー、フォロワーを確認することができます。
   <br /><br />
-  <!-- <img height="700" src="./previews/3.gif" /> -->
+  <img height="700" width="660" src="./previews/3.gif" />
 
 > 3. ユーザーフォロー、フォローの取り消し
 
@@ -60,15 +60,15 @@
 - フォローやフォローの取り消しをすると`Apollo Client`を利用して相手と自分のキャッシュされたフィールド値を直接修正し、フォローとフォローの取り消しリストをアップデートします。
 - ユーザーをフォロするとホーム画面から該当ユーザーがアップロードした写真をみることができます。
   <br /><br />
-  <!-- <img height="700" src="./previews/4.gif" /> -->
+  <img height="700" width="660" src="./previews/4.gif" />
 
 > 4. ユーザー及びハッシュタグ検索
 
 - **@ユーザーネーム** でユーザーを検索することができます。(例：@nasa)
-- **#ハッシュタグ** でハッシュタグを検索することができます。(例：#space)
+- **#ハッシュタグ** でハッシュタグを検索することができます。(例：#IKEA)
 - `React Hook Form`を利用し **@ユーザーネーム** を入力した際にはユーザーを、 **#ハッシュタグ**を入力した際にはハッシュタグを検索します。
   <br /><br />
-  <!-- <img height="700" src="./previews/5.gif" /> -->
+  <img height="700" width="660" src="./previews/5.gif" />
 
 > 5. 写真
 
@@ -78,7 +78,7 @@
 - 写真にコメント作成、修正、削除することができます。
 - 写真をアップロードしたユーザーは写真キャプションの修正、写真削除をすることができます。
   <br /><br />
-  <!-- <img height="700" src="./previews/6.gif" /> -->
+  <img height="700" width="660" src="./previews/6.gif" />
 
 > 6. 写真アップロード
 
@@ -86,29 +86,29 @@
 - キャプションには **#ハッシュタグ** を入力してハッシュタくを作成することができます。
 - アップロードした写真は `AWS S3`のバケットに保存されます。
   <br /><br />
-  <!-- <img height="700" src="./previews/7.gif" /> -->
+  <img height="700" width="660" src="./previews/7.gif" />
 
 > 7. 写真いいね、いいね取り消し
 
 - 写真にいいねまたはいいね取り消しができます。
 - いいねまたはいいね取り消しをすると、 `Apollo Client`を利用して該当写真のキャッシュされたフィールド値を直接修正しいいねと全体いいね数をアップデートします。
   <br /><br />
-  <!-- <img height="700" src="./previews/8.gif" /> -->
+  <img height="700" width="660" src="./previews/8.gif" />
 
 > 8. ハッシュタグ
 
 - ハッシュタグは該当ハッシュタグが持っている全体写真を呼び出します。
 - 写真アップロードの際に、キャプションに **#ハッシュタグ** を入力すると新しいハッシュタグが生成されます。
   <br /><br />
-  <!-- <img height="700" src="./previews/9.gif" /> -->
+  <img height="700" width="660" src="./previews/9.gif" />
 
-> 9. 다크모드
+> 9. ダークモード
 
 - 日と月のアイコンをクリックしライトモードとダークモードを切り替えることができます。
 - `Styled Components`の `ThemeProvider`を利用してライトテーマとダークテーマを設定します。
-- ダークモード切り替えの際ダークモード活性値をローカルストレージに保存して`Apollo Client`の `Reactive variables`を利用してlocal stateをアップデートします。
+- ダークモード切り替えの際ダークモード活性値をローカルストレージに保存して`Apollo Client`の `Reactive variables`を利用して local state をアップデートします。
   <br /><br />
-  <!-- <img height="700" src="./previews/10.gif" /> -->
+  <img height="700" width="660" src="./previews/10.gif" />
 
 > 10. その他
 
