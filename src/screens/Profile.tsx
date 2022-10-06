@@ -432,7 +432,7 @@ export default function Profile() {
             exit="exit"
           >
             <ModalHeader>
-              <h1>{followersPathMath ? "フォロワー" : "フォローする"}</h1>
+              <h1>{followersPathMath ? "フォロワー" : "フォロー"}</h1>
               <button onClick={handleCloseModal}>✕</button>
             </ModalHeader>
             <ModalMain>
